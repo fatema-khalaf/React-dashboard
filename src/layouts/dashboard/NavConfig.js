@@ -7,9 +7,19 @@ const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 
 const navConfig = [
   {
-    title: 'Create',
-    path: '/dashboard/create',
+    title: 'Brand',
+    path: '/dashboard/brand/',
     icon: getIcon('eva:pie-chart-2-fill'),
+    children: [
+      {
+        title: 'Create',
+        path: '/dashboard/brand/create',
+      },
+      {
+        title: 'List',
+        path: '/dashboard/brand/create',
+      },
+    ],
   },
   {
     title: 'dashboard',

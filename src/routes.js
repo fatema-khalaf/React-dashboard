@@ -17,10 +17,14 @@ import DashboardApp from './pages/DashboardApp';
 export default function Router() {
   return useRoutes([
     {
+      path: '/dashboard/brand',
+      element: <DashboardLayout />,
+      children: [{ path: 'create', element: <Create /> }],
+    },
+    {
       path: '/dashboard',
       element: <DashboardLayout />,
       children: [
-        { path: 'create', element: <Create /> },
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },

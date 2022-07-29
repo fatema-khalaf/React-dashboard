@@ -5,6 +5,7 @@ import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
 import CreateBrand from './pages/brand/CreateBrand';
 import ListBrand from './pages/brand/ListBrand';
+import EditBrand from './pages/brand/EditBrand';
 import Blog from './pages/Blog';
 import User from './pages/User';
 import Login from './pages/Login';
@@ -23,6 +24,7 @@ export default function Router() {
       children: [
         { path: 'create', element: <CreateBrand /> },
         { path: 'list', element: <ListBrand /> },
+        { path: 'edit', element: <EditBrand /> },
       ],
     },
     {

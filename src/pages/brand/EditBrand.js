@@ -14,7 +14,7 @@ export default function EditBrand() {
     <Page title="Brand | Edit">
       <Container>
         <CusBreadcrumbs
-          title="Edit a brand"
+          title="Edit brand"
           links={[
             { name: 'Dashboard', path: '/' },
             { name: 'Brands', path: '/' },

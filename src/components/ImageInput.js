@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Box, IconButton, Typography, Avatar } from '@mui/material';
+import { Box, Typography, Avatar } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
@@ -62,18 +62,29 @@ export default function ImageInput() {
               ref={fileRef}
               onChange={handleChange}
             />
-            <Content onClick={() => fileRef.current.click()}>
-              <Avatar
-                alt="Remy Sharp"
-                src={avatarUrl}
-                // src="/static/mock-images/avatars/avatar_default.jpg"
-                sx={{ width: '100%', height: '100%', display: showAvatar ? '' : 'none' }}
-              />
-              <AddAPhotoIcon sx={{ display: showAvatar ? 'none' : '' }} />
+            <Avatar
+              alt="Remy Sharp"
+              src={avatarUrl}
+              // src="/static/mock-images/avatars/avatar_default.jpg"
+              sx={{
+                width: '100%',
+                height: '100%',
+                display: showAvatar ? '' : 'none',
+              }}
+            />
+            <Content
+              onClick={() => fileRef.current.click()}
+              sx={{
+                opacity: showAvatar && 0,
+                color: showAvatar && '#ffffff',
+                backgroundColor: showAvatar && '#161c24',
+              }}
+            >
+              <AddAPhotoIcon sx={{}} />
               <Typography
                 gutterBottom
                 variant="caption"
-                sx={{ color: 'text.disabled', display: showAvatar ? 'none' : 'block', mt: 1.5 }}
+                sx={{ color: showAvatar ? '#ffffff' : 'text.disabled', display: 'block', mt: 1.5 }}
               >
                 Upload photo
               </Typography>

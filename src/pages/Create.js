@@ -24,7 +24,7 @@ import { CreateCard } from '../sections/@dashboard/create';
 
 //
 import Page from '../components/Page';
-import CusBreadcrumbs from '../components/breadcrumbs';
+import CusBreadcrumbs from '../components/CusBreadcrumbs';
 
 export default function Create() {
   return (

@@ -1,30 +1,37 @@
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import { alpha, useTheme, styled } from '@mui/material/styles';
+import { LoadingButton } from '@mui/lab';
 
 import {
+  Grid,
   Link,
   Card,
   Table,
   Stack,
   Avatar,
   Button,
+  Input,
+  TextField,
   Checkbox,
   TableRow,
   TableBody,
   TableCell,
   Container,
   Typography,
+  InputLabel,
+  FormControl,
   TableContainer,
   TablePagination,
   Box,
   ListItemIcon,
 } from '@mui/material';
-import { CreateCard } from '../sections/@dashboard/create';
+import ImageInput from '../components/ImageInput';
 
 //
 import Page from '../components/Page';
 import CusBreadcrumbs from '../components/CusBreadcrumbs';
+import { FormProvider } from '../components/hook-form';
 
 export default function Create() {
   return (
@@ -38,91 +45,31 @@ export default function Create() {
           ]}
           page="New brand"
         />
-        {/* <Card>
-          <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+        <FormProvider>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={4}>
+              <Card sx={{ p: 2 }}>
+                <FormControl sx={{ width: '100%', p: 3 }}>
+                  <ImageInput />
+                </FormControl>
+              </Card>
+            </Grid>
 
-          <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
-                <UserListHead
-                  order={order}
-                  orderBy={orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={USERLIST.length}
-                  numSelected={selected.length}
-                  onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
-                />
-                <TableBody>
-                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, company, avatarUrl, isVerified } = row;
-                    const isItemSelected = selected.indexOf(name) !== -1;
-
-                    return (
-                      <TableRow
-                        hover
-                        key={id}
-                        tabIndex={-1}
-                        role="checkbox"
-                        selected={isItemSelected}
-                        aria-checked={isItemSelected}
-                      >
-                        <TableCell padding="checkbox">
-                          <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} />
-                        </TableCell>
-                        <TableCell component="th" scope="row" padding="none">
-                          <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={name} src={avatarUrl} />
-                            <Typography variant="subtitle2" noWrap>
-                              {name}
-                            </Typography>
-                          </Stack>
-                        </TableCell>
-                        <TableCell align="left">{company}</TableCell>
-                        <TableCell align="left">{role}</TableCell>
-                        <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
-                        <TableCell align="left">
-                          <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
-                            {sentenceCase(status)}
-                          </Label>
-                        </TableCell>
-
-                        <TableCell align="right">
-                          <UserMoreMenu />
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
-
-                {isUserNotFound && (
-                  <TableBody>
-                    <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <SearchNotFound searchQuery={filterName} />
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                )}
-              </Table>
-            </TableContainer>
-          </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={USERLIST.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Card> */}
+            <Grid item xs={12} md={6} lg={8}>
+              <Card sx={{ p: 3 }}>
+                <FormControl sx={{ width: '100%', mb: 3 }}>
+                  <TextField fullWidth id="outlined-basic" label="Brand Name in english" variant="outlined" />
+                </FormControl>
+                <FormControl sx={{ width: '100%', mb: 3 }}>
+                  <TextField fullWidth id="outlined-basic" label="Brand Name in arabic" variant="outlined" />
+                </FormControl>
+                <LoadingButton fullWidth size="large" type="submit" variant="contained">
+                  Create
+                </LoadingButton>
+              </Card>
+            </Grid>
+          </Grid>
+        </FormProvider>
       </Container>
     </Page>
   );

@@ -3,7 +3,8 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
-import Create from './pages/Create';
+import CreateBrand from './pages/brand/CreateBrand';
+import ListBrand from './pages/brand/ListBrand';
 import Blog from './pages/Blog';
 import User from './pages/User';
 import Login from './pages/Login';
@@ -19,7 +20,10 @@ export default function Router() {
     {
       path: '/dashboard/brand',
       element: <DashboardLayout />,
-      children: [{ path: 'create', element: <Create /> }],
+      children: [
+        { path: 'create', element: <CreateBrand /> },
+        { path: 'list', element: <ListBrand /> },
+      ],
     },
     {
       path: '/dashboard',

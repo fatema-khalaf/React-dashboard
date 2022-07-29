@@ -17,7 +17,7 @@ const navConfig = [
       },
       {
         title: 'List',
-        path: '/dashboard/brand/create',
+        path: '/dashboard/brand/list',
       },
     ],
   },

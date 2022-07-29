@@ -1,37 +1,13 @@
-import { Link as RouterLink } from 'react-router-dom';
 // material
-import { alpha, useTheme, styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
 
-import {
-  Grid,
-  Link,
-  Card,
-  Table,
-  Stack,
-  Avatar,
-  Button,
-  Input,
-  TextField,
-  Checkbox,
-  TableRow,
-  TableBody,
-  TableCell,
-  Container,
-  Typography,
-  InputLabel,
-  FormControl,
-  TableContainer,
-  TablePagination,
-  Box,
-  ListItemIcon,
-} from '@mui/material';
-import ImageInput from '../components/ImageInput';
+import { Grid, Card, TextField, Container, FormControl } from '@mui/material';
+import ImageInput from '../../components/ImageInput';
 
-//
-import Page from '../components/Page';
-import CusBreadcrumbs from '../components/CusBreadcrumbs';
-import { FormProvider } from '../components/hook-form';
+// components
+import Page from '../../components/Page';
+import CusBreadcrumbs from '../../components/CusBreadcrumbs';
+import { FormProvider } from '../../components/hook-form';
 
 export default function Create() {
   return (

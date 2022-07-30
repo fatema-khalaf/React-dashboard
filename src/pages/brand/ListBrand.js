@@ -1,8 +1,9 @@
 /* eslint-disable */
+import axios from 'axios';
 
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
@@ -26,6 +27,8 @@ import { ListHead, ListToolbar, ListMoreMenu } from '../../sections/@dashboard/l
 import CusBreadcrumbs from '../../components/CusBreadcrumbs';
 // mock
 import BRANDLIST from '../../_mock/brand';
+import RestClient from 'src/RestAPI/RestClient';
+import AppUrl from 'src/RestAPI/AppUrl';
 
 // ----------------------------------------------------------------------
 
@@ -68,6 +71,27 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function ListBrand() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    RestClient.GetRequest(AppUrl.AllBrands).then((res) => {
+      console.log(res);
+      return setData(
+        res.data.map((item) => {
+          return {
+            id: item.id,
+            name_en: item.attributes.brand_name_en,
+            name_ar: item.attributes.brand_name_ar,
+            avatarUrl: item.attributes.brand_image,
+          };
+        })
+      );
+    });
+  }, []);
+
+  // ----------------------------------------------------------------------
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -88,7 +112,7 @@ export default function ListBrand() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = BRANDLIST.map((n) => n.name);
+      const newSelecteds = data.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -123,9 +147,9 @@ export default function ListBrand() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - BRANDLIST.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
-  const filteredUsers = applySortFilter(BRANDLIST, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(data, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
 
@@ -144,7 +168,7 @@ export default function ListBrand() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={BRANDLIST.length}
+                  rowCount={data.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
@@ -204,7 +228,7 @@ export default function ListBrand() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={BRANDLIST.length}
+            count={data.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

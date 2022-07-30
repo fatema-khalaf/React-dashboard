@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 // material
 import { Box, Checkbox, TableRow, TableCell, TableHead, TableSortLabel } from '@mui/material';
+import { alpha, styled } from '@mui/material/styles';
 
 // ----------------------------------------------------------------------
 
@@ -15,6 +16,13 @@ const visuallyHidden = {
   whiteSpace: 'nowrap',
   clip: 'rect(0 0 0 0)',
 };
+
+const StyledTableHead = styled(TableHead)(({ theme }) => ({
+  border: 0,
+  margin: 1,
+  borderRadius: '16px',
+  backgroundColor: theme.palette.grey[200],
+}));
 
 ListHead.propTypes = {
   order: PropTypes.oneOf(['asc', 'desc']),
@@ -40,7 +48,7 @@ export default function ListHead({
   };
 
   return (
-    <TableHead>
+    <StyledTableHead sx={{}}>
       <TableRow>
         <TableCell padding="checkbox">
           <Checkbox
@@ -69,6 +77,6 @@ export default function ListHead({
           </TableCell>
         ))}
       </TableRow>
-    </TableHead>
+    </StyledTableHead>
   );
 }

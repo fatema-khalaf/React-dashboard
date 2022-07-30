@@ -138,7 +138,7 @@ export default function ListBrand() {
           <ListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
+            <TableContainer sx={{ minWidth: 800, padding: 2 }}>
               <Table>
                 <ListHead
                   order={order}

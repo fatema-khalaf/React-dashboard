@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, forwardRef, useImperativeHandle } from 'react';
 import { Box, Typography, Avatar } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
@@ -37,16 +37,27 @@ const Content = styled('div')(({ theme }) => ({
   '&:hover': { opacity: 0.72, cursor: 'pointer' },
 }));
 
-export default function ImageInput() {
-  const fileRef = useRef();
-
+const ImageInput = forwardRef(({ name, onChange, value }, reviewRef) => {
   const [showAvatar, setShowAvatar] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState('');
+  const fileRef = useRef();
 
-  const handleChange = (e) => {
+  const reviewImage = (e) => {
     const [file] = e.target.files;
     setAvatarUrl(URL.createObjectURL(e.target.files[0]));
     setShowAvatar(true);
+  };
+  useImperativeHandle(reviewRef, () => ({
+    removeImage() {
+      setAvatarUrl('');
+      setShowAvatar(false);
+    },
+  }));
+
+  // make on \change executes tow functions
+  const contact = (e, fun1, fun2) => {
+    fun1(e);
+    fun2(e);
   };
 
   return (
@@ -57,10 +68,12 @@ export default function ImageInput() {
             <input
               hidden
               accept="image/*"
+              name={name}
+              value={value}
               type="file"
               style={{ display: 'none' }}
               ref={fileRef}
-              onChange={handleChange}
+              onChange={(e) => contact(e, reviewImage, onChange)}
             />
             <Avatar
               alt="Remy Sharp"
@@ -101,4 +114,5 @@ export default function ImageInput() {
       </div>
     </Box>
   );
-}
+});
+export default ImageInput;

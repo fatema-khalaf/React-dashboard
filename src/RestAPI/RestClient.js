@@ -15,7 +15,9 @@ class RestClient {
   static PostRequest = (postUrl, postJson) => {
     const config = {
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
       },
     };
 

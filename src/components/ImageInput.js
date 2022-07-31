@@ -37,11 +37,10 @@ const Content = styled('div')(({ theme }) => ({
   '&:hover': { opacity: 0.72, cursor: 'pointer' },
 }));
 
-const ImageInput = forwardRef(({ name, onChange, value }, reviewRef) => {
+const ImageInput = forwardRef(({ name, onChange, value, required }, reviewRef) => {
   const [showAvatar, setShowAvatar] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState('');
   const fileRef = useRef();
-
   const reviewImage = (e) => {
     const [file] = e.target.files;
     setAvatarUrl(URL.createObjectURL(e.target.files[0]));
@@ -74,6 +73,7 @@ const ImageInput = forwardRef(({ name, onChange, value }, reviewRef) => {
               style={{ display: 'none' }}
               ref={fileRef}
               onChange={(e) => contact(e, reviewImage, onChange)}
+              required={required}
             />
             <Avatar
               alt="Remy Sharp"

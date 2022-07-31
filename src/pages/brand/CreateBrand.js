@@ -25,17 +25,18 @@ export default function Create() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const jsonObject = { brand_name_en: brandNameEn, brand_name_ar: brandNameAr, brand_image: image };
-    // console.log(JSON.stringify(jsonObject));
-    RestClient.PostRequest(AppUrl.AllBrands, JSON.stringify(jsonObject))
-      .then((result) => {
-        alert(result);
+    axios
+      .post(AppUrl.AllBrands, JSON.stringify(jsonObject), AppUrl.config)
+      .then((response) => {
         setBrandNameEn('');
         setBrandNameAr('');
         setImage('');
         reviewRef.current.removeImage();
+        return alert('Added succecfully');
       })
       .catch((error) => {
-        alert(error);
+        console.log(error.response.data.message);
+        return alert(error.response.data.message);
       });
   };
 
@@ -55,7 +56,7 @@ export default function Create() {
             <Grid item xs={12} md={6} lg={4}>
               <Card sx={{ p: 2 }}>
                 <FormControl sx={{ width: '100%', p: 3 }}>
-                  <ImageInput value={image} onChange={(e) => setImage(e.target.value)} ref={reviewRef} />
+                  <ImageInput value={image} onChange={(e) => setImage(e.target.value)} ref={reviewRef} required />
                 </FormControl>
               </Card>
             </Grid>
@@ -71,6 +72,7 @@ export default function Create() {
                     name="barnd_name_en"
                     value={brandNameEn}
                     onChange={(e) => setBrandNameEn(e.target.value)}
+                    required
                   />
                 </FormControl>
                 <FormControl sx={{ width: '100%', mb: 3 }}>
@@ -82,6 +84,7 @@ export default function Create() {
                     name="brand_name_ar"
                     value={brandNameAr}
                     onChange={(e) => setBrandNameAr(e.target.value)}
+                    required
                   />
                 </FormControl>
                 <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleSubmit}>

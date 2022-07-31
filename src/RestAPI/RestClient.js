@@ -24,10 +24,10 @@ class RestClient {
     return axios
       .post(postUrl, postJson, config)
       .then((response) => {
-        return response.data;
+        return response;
       })
       .catch((error) => {
-        return null;
+        return error.response;
       });
   };
 }

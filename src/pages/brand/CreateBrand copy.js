@@ -21,55 +21,27 @@ import RestClient from '../../RestAPI/RestClient';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../components/hook-form';
 
 export default function Create() {
+  const [brandNameEn, setBrandNameEn] = useState('');
+  const [brandNameAr, setBrandNameAr] = useState('');
   const [image, setImage] = useState('');
-  const [imageError, setImageError] = useState('');
 
   const reviewRef = useRef();
 
-  const defaultValues = {
-    brand_name_en: '',
-    brand_name_ar: '',
-    brand_image: '',
-    remember: true,
-  };
-
-  const methods = useForm({
-    defaultValues,
-  });
-
-  const {
-    handleSubmit,
-    formState: { errors },
-    setError,
-    register,
-    setValue,
-  } = methods;
-
-  // console.log(errors);
-
-  const onSubmit = async (data) => {
-    const jsonObject = {
-      brand_name_en: data.brand_name_en,
-      brand_name_ar: data.brand_name_ar,
-      brand_image: data.brand_image[0] === undefined ? '' : data.brand_image[0].name,
-    };
+  const onSubmit = (event) => {
+    event.preventDefault();
+    const jsonObject = { brand_name_en: brandNameEn, brand_name_ar: brandNameAr, brand_image: image };
     axios
       .post(AppUrl.AllBrands, JSON.stringify(jsonObject), AppUrl.config)
       .then((response) => {
-        setValue('brand_name_en', '');
-        setValue('brand_name_ar', '');
-        setValue('brand_image', '');
+        setBrandNameEn('');
+        setBrandNameAr('');
+        setImage('');
         reviewRef.current.removeImage();
         return alert('Added succecfully');
       })
       .catch((error) => {
-        const keys = Object.keys(error.response.data.errors);
-        keys.forEach((key, index) => {
-          setError(key, { type: 'type', message: error.response.data.errors[key] });
-        });
-
-        console.log(error.response.data);
-        return error.response.data.message;
+        console.log(error.response.data.message);
+        return alert(error.response.data.message);
       });
   };
 
@@ -84,26 +56,47 @@ export default function Create() {
           ]}
           page="New brand"
         />
-        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <FormProvider onSubmit={onSubmit}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={4}>
               <Card sx={{ p: 2 }}>
                 <FormControl sx={{ width: '100%', p: 3 }}>
                   <ImageInput
+                    value={image}
+                    onChange={(e) => setImage(e.target.value)}
                     ref={reviewRef}
-                    useFormRegister={register('brand_image')} // conect the input inside ImageInput with useForm
-                    error={errors.brand_image && errors.brand_image.message}
+                    required
+                    name="image"
                   />
                 </FormControl>
               </Card>
             </Grid>
+
             <Grid item xs={12} md={6} lg={8}>
               <Card sx={{ p: 3 }}>
                 <FormControl sx={{ width: '100%', mb: 3 }}>
-                  <RHFTextField label="Brand Name in english" name="brand_name_en" />
+                  <TextField
+                    fullWidth
+                    id="outlined-basic"
+                    label="Brand Name in english"
+                    variant="outlined"
+                    name="brand_name_en"
+                    value={brandNameEn}
+                    onChange={(e) => setBrandNameEn(e.target.value)}
+                    required
+                  />
                 </FormControl>
                 <FormControl sx={{ width: '100%', mb: 3 }}>
-                  <RHFTextField label="Brand Name in arabic" name="brand_name_ar" />
+                  <TextField
+                    fullWidth
+                    id="outlined-basic"
+                    label="Brand Name in arabic"
+                    variant="outlined"
+                    name="brand_name_ar"
+                    value={brandNameAr}
+                    onChange={(e) => setBrandNameAr(e.target.value)}
+                    required
+                  />
                 </FormControl>
                 <LoadingButton fullWidth size="large" type="submit" variant="contained">
                   Create

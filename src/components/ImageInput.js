@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useRef, useState, forwardRef, useImperativeHandle } from 'react';
 import { Box, Typography, Avatar } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
@@ -37,23 +39,41 @@ const Content = styled('div')(({ theme }) => ({
   '&:hover': { opacity: 0.72, cursor: 'pointer' },
 }));
 
-const ImageInput = forwardRef(({ name, onChange, value, required }, reviewRef) => {
+const ImageInput = forwardRef(({ useFormRegister, error }, reviewRef) => {
   const [showAvatar, setShowAvatar] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState('');
-  const fileRef = useRef();
+  const [isHovering, setIsHovering] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+  };
+
+  // when user upload image show it in avatar div
   const reviewImage = (e) => {
     const [file] = e.target.files;
     setAvatarUrl(URL.createObjectURL(e.target.files[0]));
+    console.log('changed');
     setShowAvatar(true);
   };
+
+  // useImperativeHandle makes the methode inside it executable from parent component
   useImperativeHandle(reviewRef, () => ({
+    // when form submitted remove all old data
     removeImage() {
       setAvatarUrl('');
       setShowAvatar(false);
     },
   }));
+  // click on input feild when user clicks on content div
+  const clickInput = () => {
+    document.getElementById('input').click();
+  };
 
-  // make on \change executes tow functions
+  // make onchange executes tow functions
   const contact = (e, fun1, fun2) => {
     fun1(e);
     fun2(e);
@@ -65,20 +85,19 @@ const ImageInput = forwardRef(({ name, onChange, value, required }, reviewRef) =
         <Warper>
           <Snoop>
             <input
-              hidden
+              // hidden // do NOT make input hidden or display none, the useForm will not recognize input value
+              id="input"
               accept="image/*"
-              name={name}
-              value={value}
+              {...useFormRegister} // useForm code to make the input discoverable from useForm
               type="file"
-              style={{ display: 'none' }}
-              ref={fileRef}
-              onChange={(e) => contact(e, reviewImage, onChange)}
-              required={required}
+              style={{ zIndex: 55, width: '200px', height: '120px', opacity: 0, cursor: isHovering && 'pointer' }}
+              onChange={(e) => reviewImage(e)}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
             />
             <Avatar
               alt="Remy Sharp"
               src={avatarUrl}
-              // src="/static/mock-images/avatars/avatar_default.jpg"
               sx={{
                 width: '100%',
                 height: '100%',
@@ -86,9 +105,11 @@ const ImageInput = forwardRef(({ name, onChange, value, required }, reviewRef) =
               }}
             />
             <Content
-              onClick={() => fileRef.current.click()}
+              onClick={clickInput}
               sx={{
-                opacity: showAvatar && 0,
+                // opacity: isHovering && 0.72,
+                cursor: isHovering && 'pointer',
+                opacity: showAvatar ? 0 : isHovering ? 0.72 : 1,
                 color: showAvatar && '#ffffff',
                 backgroundColor: showAvatar && '#161c24',
               }}
@@ -104,6 +125,17 @@ const ImageInput = forwardRef(({ name, onChange, value, required }, reviewRef) =
             </Content>
           </Snoop>
         </Warper>
+
+        {error && !showAvatar && (
+          <Typography
+            gutterBottom
+            variant="caption"
+            sx={{ color: 'red', display: 'block', mt: 1.5, textAlign: 'center' }}
+          >
+            {error}
+          </Typography>
+        )}
+
         <Typography
           gutterBottom
           variant="caption"

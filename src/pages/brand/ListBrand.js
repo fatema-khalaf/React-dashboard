@@ -77,19 +77,19 @@ export default function ListBrand() {
 
   useEffect(() => {
     RestClient.GetRequest(AppUrl.AllBrands).then((res) => {
-      console.log(res);
       return setData(
         res.data.map((item) => {
           return {
             id: item.id,
             name_en: item.attributes.brand_name_en,
             name_ar: item.attributes.brand_name_ar,
-            avatarUrl: item.attributes.brand_image,
+            avatarUrl: `${AppUrl.BaseURL}${item.attributes.brand_image}`,
           };
         })
       );
     });
   }, []);
+  console.log(data);
 
   // ----------------------------------------------------------------------
   const [page, setPage] = useState(0);

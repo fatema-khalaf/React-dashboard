@@ -23,6 +23,7 @@ import { FormProvider, RHFTextField, RHFCheckbox } from '../../components/hook-f
 export default function Create() {
   const [image, setImage] = useState('');
   const [imageError, setImageError] = useState('');
+  const [imageFile, setImageFiel] = useState(null);
 
   const reviewRef = useRef();
 
@@ -48,13 +49,13 @@ export default function Create() {
   // console.log(errors);
 
   const onSubmit = async (data) => {
-    const jsonObject = {
-      brand_name_en: data.brand_name_en,
-      brand_name_ar: data.brand_name_ar,
-      brand_image: data.brand_image[0] === undefined ? '' : data.brand_image[0].name,
-    };
+    const formData = new FormData();
+    formData.append('brand_image', data.brand_image[0]);
+    formData.append('brand_name_en', data.brand_name_en);
+    formData.append('brand_name_ar', data.brand_name_ar);
+
     axios
-      .post(AppUrl.AllBrands, JSON.stringify(jsonObject), AppUrl.config)
+      .post(AppUrl.AllBrands, formData, AppUrl.config)
       .then((response) => {
         setValue('brand_name_en', '');
         setValue('brand_name_ar', '');

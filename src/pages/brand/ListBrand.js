@@ -200,7 +200,7 @@ export default function ListBrand() {
                         </TableCell>
 
                         <TableCell align="right">
-                          <ListMoreMenu />
+                          <ListMoreMenu id={id} />
                         </TableCell>
                       </TableRow>
                     );

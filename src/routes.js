@@ -24,7 +24,7 @@ export default function Router() {
       children: [
         { path: 'create', element: <CreateBrand /> },
         { path: 'list', element: <ListBrand /> },
-        { path: 'edit', element: <EditBrand /> },
+        { path: 'edit/:id', element: <EditBrand /> },
       ],
     },
     {

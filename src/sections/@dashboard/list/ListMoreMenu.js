@@ -52,9 +52,9 @@ export default function ListMoreMenu(id) {
           </MenuItem>
         </ListItemButton>
         <ListItemButton
-          key="Edit"
+          key={id}
           // component={RouterLink}
-          to="/dashboard/brand/edit"
+          to={`/dashboard/brand/edit/${id.id}`}
         >
           <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
             <ListItemIcon>

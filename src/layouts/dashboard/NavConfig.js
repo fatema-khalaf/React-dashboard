@@ -19,10 +19,6 @@ const navConfig = [
         title: 'List',
         path: '/dashboard/brand/list',
       },
-      {
-        title: 'Edit',
-        path: '/dashboard/brand/edit',
-      },
     ],
   },
   {
@@ -34,16 +30,6 @@ const navConfig = [
     title: 'user',
     path: '/dashboard/user',
     icon: getIcon('eva:people-fill'),
-  },
-  {
-    title: 'product',
-    path: '/dashboard/products',
-    icon: getIcon('eva:shopping-bag-fill'),
-  },
-  {
-    title: 'blog',
-    path: '/dashboard/blog',
-    icon: getIcon('eva:file-text-fill'),
   },
   {
     title: 'login',

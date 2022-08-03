@@ -16,42 +16,27 @@ import CusBreadcrumbs from '../../components/CusBreadcrumbs';
 import AppUrl from '../../RestAPI/AppUrl';
 import RestClient from '../../RestAPI/RestClient';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../components/hook-form';
+import { useAPI, APIContextProvider } from './Context';
 
 export default function EditBrand() {
-  const [data, setData] = useState([]);
-  const reviewRef = useRef();
   const params = useParams();
-  // console.log(params);
+  const reviewRef = useRef();
+  const [imageUrl, setImageUrl] = useState(null);
+  // const methods = useForm({
+  //   // defaultValues,
+  //   // intialValues,
+  // });
+  // const { register, handleSubmit, setError, reset, setValue, getValues, errors, formState } = methods;
 
-  useEffect(() => {
-    RestClient.GetRequest(`${AppUrl.AllBrands}/${params.id}`).then((res) => {
-      setData({
-        id: res.data.id,
-        brand_name_en: res.data.attributes.brand_name_en,
-        brand_name_ar: res.data.attributes.brand_name_ar,
-        brand_image: `${AppUrl.BaseURL}${res.data.attributes.brand_image}`,
-      });
-    });
-  }, []);
-  console.log(data.brand_name_en);
-
-  // form
   const defaultValues = {
-    brand_name_en: 'data.brand_name_en',
-    brand_name_ar: data.brand_name_ar,
-    brand_image: data.brand_image,
+    brand_name_en: '',
+    brand_name_ar: '',
+    brand_image: '',
     remember: true,
   };
 
-  // const intialValues = {
-  //   brand_name_en: data.brand_name_en,
-  //   brand_name_ar: data.brand_name_ar,
-  //   brand_image: data.brand_image,
-  // };
-
   const methods = useForm({
     defaultValues,
-    // intialValues,
   });
 
   const {
@@ -62,20 +47,40 @@ export default function EditBrand() {
     setValue,
   } = methods;
 
+  useEffect(() => {
+    async function getData() {
+      try {
+        const response = await axios.get(`${AppUrl.AllBrands}/${params.id}`);
+        const data = await response.data.data; // must await here else no data will be found
+        setValue('brand_name_en', data.attributes.brand_name_en);
+        setValue('brand_name_ar', data.attributes.brand_name_ar);
+        setValue('brand_image', data.attributes.brand_image);
+        // Todo: add image when the update page is loaded
+        // setImageUrl(`${AppUrl.BaseURL}${data.attributes.brand_image}`);
+        // reviewRef.current.addImage(`${AppUrl.BaseURL}${data.attributes.brand_image}`);
+
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
+  }, []);
+
   // on submit form
+
   const onSubmit = async (data) => {
+    // Note: put method dose not accept brand_image(file)
     const formData = new FormData();
+    formData.append('_method', 'PUT');
     formData.append('brand_image', data.brand_image[0]);
     formData.append('brand_name_en', data.brand_name_en);
     formData.append('brand_name_ar', data.brand_name_ar);
-    console.log(formData.brand_image);
+    console.log(data.brand_image[0]);
+    // 💥❌👉 laravel and PHP do NOT accept file in put methods so we need to make it post mathod then add _mathod: put with formData
     axios
-      .put(`${AppUrl.AllBrands}/${params.id}`, formData, AppUrl.config)
+      .post(`${AppUrl.AllBrands}/${params.id}`, formData, AppUrl.config)
       .then((response) => {
-        // setValue('brand_name_en', '');
-        // setValue('brand_name_ar', '');
-        // setValue('brand_image', '');
-        // reviewRef.current.removeImage();
         return alert('Updated succecfully');
       })
       .catch((error) => {
@@ -106,7 +111,7 @@ export default function EditBrand() {
               <Card sx={{ p: 2 }}>
                 <FormControl sx={{ width: '100%', p: 3 }}>
                   <ImageInput
-                    ref={reviewRef}
+                    // ref={reviewRef}
                     useFormRegister={register('brand_image')} // conect the input inside ImageInput with useForm
                     error={errors.brand_image && errors.brand_image.message}
                   />
@@ -122,7 +127,7 @@ export default function EditBrand() {
                   <RHFTextField label="Brand Name in arabic" name="brand_name_ar" />
                 </FormControl>
                 <LoadingButton fullWidth size="large" type="submit" variant="contained">
-                  Create
+                  Update
                 </LoadingButton>
               </Card>
             </Grid>

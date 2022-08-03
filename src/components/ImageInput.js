@@ -39,7 +39,7 @@ const Content = styled('div')(({ theme }) => ({
   '&:hover': { opacity: 0.72, cursor: 'pointer' },
 }));
 
-const ImageInput = forwardRef(({ useFormRegister, error }, reviewRef) => {
+const ImageInput = forwardRef(({ useFormRegister, error, avatarURL }, reviewRef) => {
   const [showAvatar, setShowAvatar] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState('');
   const [isHovering, setIsHovering] = useState(false);
@@ -67,7 +67,17 @@ const ImageInput = forwardRef(({ useFormRegister, error }, reviewRef) => {
       setAvatarUrl('');
       setShowAvatar(false);
     },
+    // addImage(imageUrl) {
+    //   setAvatarUrl(imageUrl);
+    //   console.log('changed');
+    //   setShowAvatar(true);
+    // },
   }));
+  if (avatarURL) {
+    setAvatarUrl(avatarURL);
+    console.log('changed');
+    setShowAvatar(true);
+  }
   // click on input feild when user clicks on content div
   const clickInput = () => {
     document.getElementById('input').click();

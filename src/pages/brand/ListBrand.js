@@ -200,7 +200,10 @@ export default function ListBrand() {
                         </TableCell>
 
                         <TableCell align="right">
-                          <ListMoreMenu id={id} />
+                          <ListMoreMenu
+                            editURL={`/dashboard/brand/edit/${id}`}
+                            deleteURL={`${AppUrl.AllBrands}/${id}`}
+                          />
                         </TableCell>
                       </TableRow>
                     );

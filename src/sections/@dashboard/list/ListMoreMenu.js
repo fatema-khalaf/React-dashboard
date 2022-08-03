@@ -1,25 +1,32 @@
+import PropTypes from 'prop-types';
+
 import { useRef, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText, ListItemButton } from '@mui/material';
 import axios from 'axios';
-import AppUrl from '../../../RestAPI/AppUrl';
 // component
 import Iconify from '../../../components/Iconify';
 
 // ----------------------------------------------------------------------
 
-export default function ListMoreMenu(id) {
+export default function ListMoreMenu({ editURL, deleteURL }) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
   const handeleDelete = () => {
     axios
-      .delete(`${AppUrl.AllBrands}/${id.id}`)
-      .then((response) => console.log('deleted'))
+      .delete(deleteURL)
+      .then((response) => alert('deleted'))
       .catch((error) => {
         console.error('There was an error!', error);
       });
+    setIsOpen(false);
+  };
+  // prop type
+  ListMoreMenu.propTypes = {
+    editURL: PropTypes.string, // edit route url
+    deleteURL: PropTypes.string, // delete API endpoint
   };
 
   return (
@@ -38,31 +45,19 @@ export default function ListMoreMenu(id) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <ListItemButton
-          key="Delete"
-          // component={RouterLink}
-          // to="/dashboard/brand/edit"
-          onClick={handeleDelete}
-        >
-          <MenuItem sx={{ color: 'text.secondary' }}>
-            <ListItemIcon>
-              <Iconify icon="eva:trash-2-outline" width={24} height={24} />
-            </ListItemIcon>
-            <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
-          </MenuItem>
-        </ListItemButton>
-        <ListItemButton
-          key={id}
-          // component={RouterLink}
-          to={`/dashboard/brand/edit/${id.id}`}
-        >
-          <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
-            <ListItemIcon>
-              <Iconify icon="eva:edit-fill" width={24} height={24} />
-            </ListItemIcon>
-            <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
-          </MenuItem>
-        </ListItemButton>
+        <MenuItem sx={{ color: 'text.secondary' }} to="#" onClick={handeleDelete}>
+          <ListItemIcon>
+            <Iconify icon="eva:trash-2-outline" width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
+        </MenuItem>
+
+        <MenuItem component={RouterLink} to={editURL} sx={{ color: 'text.secondary' }}>
+          <ListItemIcon>
+            <Iconify icon="eva:edit-fill" width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
+        </MenuItem>
       </Menu>
     </>
   );

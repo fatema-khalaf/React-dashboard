@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import React, { useRef, useState, forwardRef, useImperativeHandle } from 'react';
+import React, { useRef, useState, forwardRef, useImperativeHandle, Children, useEffect } from 'react';
 import { Box, Typography, Avatar } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
@@ -39,7 +39,7 @@ const Content = styled('div')(({ theme }) => ({
   '&:hover': { opacity: 0.72, cursor: 'pointer' },
 }));
 
-const ImageInput = forwardRef(({ useFormRegister, error, avatarURL }, reviewRef) => {
+const ImageInput = forwardRef(({ useFormRegister, error, imageURL }, reviewRef) => {
   const [showAvatar, setShowAvatar] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState('');
   const [isHovering, setIsHovering] = useState(false);
@@ -56,7 +56,7 @@ const ImageInput = forwardRef(({ useFormRegister, error, avatarURL }, reviewRef)
   const reviewImage = (e) => {
     const [file] = e.target.files;
     setAvatarUrl(URL.createObjectURL(e.target.files[0]));
-    console.log('changed');
+    // console.log('changed');
     setShowAvatar(true);
   };
 
@@ -67,20 +67,25 @@ const ImageInput = forwardRef(({ useFormRegister, error, avatarURL }, reviewRef)
       setAvatarUrl('');
       setShowAvatar(false);
     },
-    // addImage(imageUrl) {
-    //   setAvatarUrl(imageUrl);
-    //   console.log('changed');
-    //   setShowAvatar(true);
-    // },
+    addImage(imageUrl) {
+      setAvatarUrl(imageUrl);
+      console.log('changed');
+      setShowAvatar(true);
+    },
   }));
-  if (avatarURL) {
-    setAvatarUrl(avatarURL);
-    console.log('changed');
-    setShowAvatar(true);
-  }
+  // console.log(imageURL);
+  // useEffect(() => {
+  //   if (imageURL) {
+  //     setAvatarUrl(imageURL);
+  //     console.log(imageURL);
+  //     setShowAvatar(true);
+  //   }
+  // }, [imageURL]);
+
   // click on input feild when user clicks on content div
   const clickInput = () => {
     document.getElementById('input').click();
+    console.log(document.getElementById('input').value);
   };
 
   // make onchange executes tow functions
@@ -88,7 +93,7 @@ const ImageInput = forwardRef(({ useFormRegister, error, avatarURL }, reviewRef)
     fun1(e);
     fun2(e);
   };
-
+  // TODO: make input display none works maybe using "controller" same in text inputs
   return (
     <Box mb={4}>
       <div>
@@ -96,11 +101,20 @@ const ImageInput = forwardRef(({ useFormRegister, error, avatarURL }, reviewRef)
           <Snoop>
             <input
               // hidden // do NOT make input hidden or display none, the useForm will not recognize input value
+              // hidden
               id="input"
               accept="image/*"
               {...useFormRegister} // useForm code to make the input discoverable from useForm
               type="file"
-              style={{ zIndex: 55, width: '200px', height: '120px', opacity: 0, cursor: isHovering && 'pointer' }}
+              style={{
+                zIndex: 55,
+                width: '200px',
+                height: '120px',
+                opacity: 0,
+                position: 'absolute', // NOTE: MUST BE ABSOLUT because when image is displayed it takes all the div and input width become 0 which makes its value undescoverable from useform
+                cursor: isHovering && 'pointer',
+                // display: 'none',
+              }}
               onChange={(e) => reviewImage(e)}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
@@ -151,7 +165,7 @@ const ImageInput = forwardRef(({ useFormRegister, error, avatarURL }, reviewRef)
           variant="caption"
           sx={{ color: 'text.disabled', display: 'block', mt: 1.5, textAlign: 'center' }}
         >
-          Allowed *.jpeg, *.jpg, *.png, *.gif
+          Allowed *.jpeg, *.jpg, *.png
         </Typography>
       </div>
     </Box>

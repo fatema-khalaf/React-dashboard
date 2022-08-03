@@ -45,6 +45,7 @@ export default function EditBrand() {
     setError,
     register,
     setValue,
+    getValues,
   } = methods;
 
   useEffect(() => {
@@ -55,9 +56,10 @@ export default function EditBrand() {
         setValue('brand_name_en', data.attributes.brand_name_en);
         setValue('brand_name_ar', data.attributes.brand_name_ar);
         setValue('brand_image', data.attributes.brand_image);
+        console.log(getValues('brand_image'));
+        setImageUrl(getValues('brand_image'));
         // Todo: add image when the update page is loaded
-        // setImageUrl(`${AppUrl.BaseURL}${data.attributes.brand_image}`);
-        // reviewRef.current.addImage(`${AppUrl.BaseURL}${data.attributes.brand_image}`);
+        reviewRef.current.addImage(`${AppUrl.BaseURL}${data.attributes.brand_image}`);
 
         console.log(data);
       } catch (error) {
@@ -65,10 +67,10 @@ export default function EditBrand() {
       }
     }
     getData();
-  }, []);
+  }, [imageUrl]);
+  console.log(imageUrl);
 
   // on submit form
-
   const onSubmit = async (data) => {
     // Note: put method dose not accept brand_image(file)
     const formData = new FormData();
@@ -111,7 +113,8 @@ export default function EditBrand() {
               <Card sx={{ p: 2 }}>
                 <FormControl sx={{ width: '100%', p: 3 }}>
                   <ImageInput
-                    // ref={reviewRef}
+                    ref={reviewRef}
+                    // imageURL={`http://127.0.0.1:8000/api/v1/${imageUrl}`}
                     useFormRegister={register('brand_image')} // conect the input inside ImageInput with useForm
                     error={errors.brand_image && errors.brand_image.message}
                   />

@@ -45,6 +45,7 @@ const ImageInput = forwardRef(({ useFormRegister, error, imageURL }, reviewRef) 
   const [isHovering, setIsHovering] = useState(false);
 
   const handleMouseEnter = () => {
+    console.log('hover');
     setIsHovering(true);
   };
 
@@ -93,7 +94,6 @@ const ImageInput = forwardRef(({ useFormRegister, error, imageURL }, reviewRef) 
     fun1(e);
     fun2(e);
   };
-  // TODO: make input display none works maybe using "controller" same in text inputs
   return (
     <Box mb={4}>
       <div>
@@ -101,7 +101,6 @@ const ImageInput = forwardRef(({ useFormRegister, error, imageURL }, reviewRef) 
           <Snoop>
             <input
               // hidden // do NOT make input hidden or display none, the useForm will not recognize input value
-              // hidden
               id="input"
               accept="image/*"
               {...useFormRegister} // useForm code to make the input discoverable from useForm
@@ -111,14 +110,15 @@ const ImageInput = forwardRef(({ useFormRegister, error, imageURL }, reviewRef) 
                 width: '200px',
                 height: '120px',
                 opacity: 0,
+                backgroundColor: 'red',
                 position: 'absolute', // NOTE: MUST BE ABSOLUT because when image is displayed it takes all the div and input width become 0 which makes its value undescoverable from useform
                 cursor: isHovering && 'pointer',
-                // display: 'none',
               }}
               onChange={(e) => reviewImage(e)}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             />
+
             <Avatar
               alt="Remy Sharp"
               src={avatarUrl}
@@ -131,9 +131,8 @@ const ImageInput = forwardRef(({ useFormRegister, error, imageURL }, reviewRef) 
             <Content
               onClick={clickInput}
               sx={{
-                // opacity: isHovering && 0.72,
                 cursor: isHovering && 'pointer',
-                opacity: showAvatar ? 0 : isHovering ? 0.72 : 1,
+                opacity: showAvatar & !isHovering ? 0 : isHovering ? 0.72 : 1,
                 color: showAvatar && '#ffffff',
                 backgroundColor: showAvatar && '#161c24',
               }}

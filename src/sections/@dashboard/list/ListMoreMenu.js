@@ -10,18 +10,20 @@ import Iconify from '../../../components/Iconify';
 
 // ----------------------------------------------------------------------
 
-export default function ListMoreMenu({ editURL, deleteURL }) {
+export default function ListMoreMenu({ editURL, deleteURL, setIsDeleted }) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handeleDelete = () => {
-    axios
+  const handeleDelete = async () => {
+    setIsOpen(false);
+    await axios
       .delete(deleteURL)
       .then((response) => alert('deleted'))
       .catch((error) => {
+        alert('This Brand related to many products you need to delete those products first!');
         console.error('There was an error!', error);
       });
-    setIsOpen(false);
+    setIsDeleted(true);
   };
   // prop type
   ListMoreMenu.propTypes = {

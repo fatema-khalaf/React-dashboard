@@ -1,5 +1,6 @@
 /* eslint-disable */
 import axios from 'axios';
+// import { useApiCall } from '../../requests/Query';
 
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
@@ -29,6 +30,7 @@ import CusBreadcrumbs from '../../components/CusBreadcrumbs';
 import BRANDLIST from '../../_mock/brand';
 import RestClient from 'src/RestAPI/RestClient';
 import AppUrl from 'src/RestAPI/AppUrl';
+import { useApiCall } from 'src/components/requests/Query';
 
 // ----------------------------------------------------------------------
 
@@ -72,6 +74,7 @@ function applySortFilter(array, comparator, query) {
 
 export default function ListBrand() {
   const [data, setData] = useState([]);
+  const [isDeleted, setIsDeleted] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   // TODO: update list ufter delete event
@@ -89,9 +92,8 @@ export default function ListBrand() {
         })
       );
     });
-  }, []);
-  console.log(data);
-
+    setIsDeleted(false);
+  }, [isDeleted]);
   // ----------------------------------------------------------------------
   const [page, setPage] = useState(0);
 
@@ -202,6 +204,7 @@ export default function ListBrand() {
 
                         <TableCell align="right">
                           <ListMoreMenu
+                            setIsDeleted={setIsDeleted}
                             editURL={`/dashboard/brand/edit/${id}`}
                             deleteURL={`${AppUrl.AllBrands}/${id}`}
                           />

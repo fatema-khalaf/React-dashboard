@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import axios from 'axios';
-import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
+
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -14,7 +15,6 @@ import ImageInput from '../../components/ImageInput';
 // components
 import Page from '../../components/Page';
 import CusBreadcrumbs from '../../components/CusBreadcrumbs';
-// import { FormProvider } from '../../components/hook-form';
 
 import AppUrl from '../../RestAPI/AppUrl';
 import RestClient from '../../RestAPI/RestClient';
@@ -24,8 +24,8 @@ export default function Create() {
   const [image, setImage] = useState('');
   const [imageError, setImageError] = useState('');
   const [imageFile, setImageFiel] = useState(null);
-
   const reviewRef = useRef();
+  const navigate = useNavigate(); // to redirect user to any page
 
   const defaultValues = {
     brand_name_en: '',
@@ -46,8 +46,6 @@ export default function Create() {
     setValue,
   } = methods;
 
-  // console.log(errors);
-
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append('brand_image', data.brand_image[0]);
@@ -60,7 +58,8 @@ export default function Create() {
         setValue('brand_name_en', '');
         setValue('brand_name_ar', '');
         setValue('brand_image', '');
-        reviewRef.current.removeImage();
+        reviewRef.current.removeImage(); // Remove the image from the image input
+        navigate('/dashboard/brand/list'); //redirect user to list page
         return alert('Added succecfully');
       })
       .catch((error) => {
@@ -68,8 +67,6 @@ export default function Create() {
         keys.forEach((key, index) => {
           setError(key, { type: 'type', message: error.response.data.errors[key] });
         });
-
-        console.log(error.response.data);
         return error.response.data.message;
       });
   };

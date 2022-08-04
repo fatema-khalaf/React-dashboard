@@ -74,7 +74,8 @@ export default function ListBrand() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  // TODO: update list ufter delete event
+  // TODO: redirect user to list page after update brand successfuly
   useEffect(() => {
     RestClient.GetRequest(AppUrl.AllBrands).then((res) => {
       return setData(

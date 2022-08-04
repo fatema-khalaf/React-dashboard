@@ -1,16 +1,7 @@
-import { useQuery } from 'react-query';
-import axios from 'axios';
-import AppUrl from '../../RestAPI/AppUrl';
+import { useApiCall } from './Query';
 
 function Request() {
-  const getResponse = async () => {
-    const res = await axios.get(AppUrl.AllBrands);
-    const data = await res.data;
-    return data;
-  };
-  const { isLoading, error, data, refetch } = useQuery(['brands'], getResponse);
-  console.log(data);
-  console.log(error);
+  const { data, isLoading, error, refetch } = useApiCall();
 
   if (error) {
     return <h1>error</h1>;

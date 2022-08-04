@@ -12,16 +12,16 @@ import Request from './components/requests/BrandsRequest';
 // ----------------------------------------------------------------------
 
 export default function App() {
-  const queryClient = new QueryClient();
+  // const queryClient = new QueryClient();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      {/* <ThemeProvider> */}
-      {/* <ScrollToTop /> */}
-      {/* <BaseOptionChartStyle /> */}
-      <Request />
-      {/* <Router /> */}
-      {/* </ThemeProvider> */}
-    </QueryClientProvider>
+    // <QueryClientProvider client={queryClient}>
+    <ThemeProvider>
+      <ScrollToTop />
+      <BaseOptionChartStyle />
+      {/* <Request /> */}
+      <Router />
+    </ThemeProvider>
+    // </QueryClientProvider>
   );
 }

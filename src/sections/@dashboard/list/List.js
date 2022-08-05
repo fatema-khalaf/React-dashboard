@@ -149,12 +149,16 @@ export default function List({ TABLE_HEAD, data, setIsDeleted, editURL, deleteUR
                     {Object.keys(tableCells).map(function (key, index) {
                       if (tableCells[key].includes(AppUrl.BaseURL)) {
                         return (
-                          <TableCell align="left">
+                          <TableCell align="left" key={index}>
                             <Avatar alt={tableCells.avatarUrl} src={tableCells.avatarUrl} />
                           </TableCell>
                         );
                       } else {
-                        return <TableCell align="left">{tableCells[key]}</TableCell>;
+                        return (
+                          <TableCell align="left" key={index}>
+                            {tableCells[key]}
+                          </TableCell>
+                        );
                       }
                     })}
 

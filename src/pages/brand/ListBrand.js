@@ -29,6 +29,9 @@ export default function ListBrand() {
   useEffect(() => {
     setIsLoading(true);
     RestClient.GetRequest(AppUrl.AllBrands).then((res) => {
+      if (!res) {
+        setError('Internal Error, Please try again later!');
+      }
       return setData(
         res.data.map((item) => {
           return {
@@ -57,6 +60,7 @@ export default function ListBrand() {
           editURL={`/dashboard/brand/edit/`}
           deleteURL={`${AppUrl.AllBrands}/`}
           isLoading={isLoading}
+          error={error}
         />
       </Container>
     </Page>

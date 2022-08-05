@@ -53,7 +53,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function List({ TABLE_HEAD, data, setIsDeleted, editURL, deleteURL, isLoading }) {
+export default function List({ TABLE_HEAD, data, setIsDeleted, editURL, deleteURL, isLoading, error }) {
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -190,7 +190,7 @@ export default function List({ TABLE_HEAD, data, setIsDeleted, editURL, deleteUR
               <TableBody>
                 <TableRow>
                   <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                    <SearchNotFound searchQuery={filterName} />
+                    <SearchNotFound searchQuery={filterName} error={error} />
                   </TableCell>
                 </TableRow>
               </TableBody>

@@ -24,9 +24,10 @@ const TABLE_HEAD = [
 export default function ListBrand() {
   const [data, setData] = useState([]);
   const [isDeleted, setIsDeleted] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   useEffect(() => {
+    setIsLoading(true);
     RestClient.GetRequest(AppUrl.AllBrands).then((res) => {
       return setData(
         res.data.map((item) => {
@@ -39,10 +40,12 @@ export default function ListBrand() {
         })
       );
     });
+    setIsLoading(false);
     setIsDeleted(false);
   }, [isDeleted]);
   // ----------------------------------------------------------------------
-
+  // console.log(data);
+  // console.log(isLoading);
   return (
     <Page title="Brands">
       <Container>
@@ -53,6 +56,7 @@ export default function ListBrand() {
           setIsDeleted={setIsDeleted}
           editURL={`/dashboard/brand/edit/`}
           deleteURL={`${AppUrl.AllBrands}/`}
+          isLoading={isLoading}
         />
       </Container>
     </Page>

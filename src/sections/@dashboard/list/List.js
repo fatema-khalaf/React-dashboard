@@ -10,6 +10,7 @@ import {
   Avatar,
   Checkbox,
   TableRow,
+  Skeleton,
   TableBody,
   TableCell,
   TableContainer,
@@ -52,7 +53,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function List({ TABLE_HEAD, data, setIsDeleted, editURL, deleteURL }) {
+export default function List({ TABLE_HEAD, data, setIsDeleted, editURL, deleteURL, isLoading }) {
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -150,13 +151,19 @@ export default function List({ TABLE_HEAD, data, setIsDeleted, editURL, deleteUR
                       if (tableCells[key].includes(AppUrl.BaseURL)) {
                         return (
                           <TableCell align="left" key={index}>
-                            <Avatar alt={tableCells.avatarUrl} src={tableCells.avatarUrl} />
+                            {isLoading ? (
+                              <Skeleton variant="circular">
+                                <Avatar />
+                              </Skeleton>
+                            ) : (
+                              <Avatar alt={tableCells.avatarUrl} src={tableCells.avatarUrl} />
+                            )}
                           </TableCell>
                         );
                       } else {
                         return (
                           <TableCell align="left" key={index}>
-                            {tableCells[key]}
+                            {isLoading ? <Skeleton variant="text" width={100} /> : tableCells[key]}
                           </TableCell>
                         );
                       }

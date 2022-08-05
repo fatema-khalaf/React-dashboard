@@ -59,7 +59,7 @@ export default function Create() {
         setValue('brand_name_ar', '');
         setValue('brand_image', '');
         reviewRef.current.removeImage(); // Remove the image from the image input
-        navigate('/dashboard/brand/list'); //redirect user to list page
+        navigate('/dashboard/brand/list'); // redirect user to list page
         return alert('Added succecfully');
       })
       .catch((error) => {

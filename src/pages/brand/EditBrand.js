@@ -1,12 +1,12 @@
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 // material
 import { LoadingButton } from '@mui/lab';
 
 import { Grid, Card, TextField, Container, FormControl } from '@mui/material';
-import { Route, Link, Routes, useParams } from 'react-router-dom';
 
 // components
 import Page from '../../components/Page';
@@ -22,11 +22,7 @@ export default function EditBrand() {
   const params = useParams();
   const reviewRef = useRef();
   const [imageUrl, setImageUrl] = useState(null);
-  // const methods = useForm({
-  //   // defaultValues,
-  //   // intialValues,
-  // });
-  // const { register, handleSubmit, setError, reset, setValue, getValues, errors, formState } = methods;
+  const navigate = useNavigate(); // to redirect user to any page
 
   const defaultValues = {
     brand_name_en: '',
@@ -58,7 +54,6 @@ export default function EditBrand() {
         setValue('brand_image', data.attributes.brand_image);
         console.log(getValues('brand_image'));
         setImageUrl(getValues('brand_image'));
-        // Todo: add image when the update page is loaded
         reviewRef.current.addImage(`${AppUrl.BaseURL}${data.attributes.brand_image}`);
 
         console.log(data);
@@ -83,6 +78,7 @@ export default function EditBrand() {
     axios
       .post(`${AppUrl.AllBrands}/${params.id}`, formData, AppUrl.config)
       .then((response) => {
+        navigate('/dashboard/brand/list'); // redirect user to list page
         return alert('Updated succecfully');
       })
       .catch((error) => {

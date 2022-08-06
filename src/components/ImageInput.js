@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, forwardRef, useImperativeHandle, Children, useEffect } from 'react';
 import { Box, Typography, Avatar } from '@mui/material';
-import { alpha, styled } from '@mui/material/styles';
+import { alpha, styled, useTheme } from '@mui/material/styles';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 const Warper = styled('div')(({ theme }) => ({
@@ -39,13 +39,13 @@ const Content = styled('div')(({ theme }) => ({
   '&:hover': { opacity: 0.72, cursor: 'pointer' },
 }));
 
-const ImageInput = forwardRef(({ useFormRegister, error, imageURL }, reviewRef) => {
+const ImageInput = forwardRef(({ useFormRegister, error }, reviewRef) => {
   const [showAvatar, setShowAvatar] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState('');
   const [isHovering, setIsHovering] = useState(false);
+  const theme = useTheme();
 
   const handleMouseEnter = () => {
-    console.log('hover');
     setIsHovering(true);
   };
 
@@ -74,14 +74,6 @@ const ImageInput = forwardRef(({ useFormRegister, error, imageURL }, reviewRef) 
       setShowAvatar(true);
     },
   }));
-  // console.log(imageURL);
-  // useEffect(() => {
-  //   if (imageURL) {
-  //     setAvatarUrl(imageURL);
-  //     console.log(imageURL);
-  //     setShowAvatar(true);
-  //   }
-  // }, [imageURL]);
 
   // click on input feild when user clicks on content div
   const clickInput = () => {
@@ -97,7 +89,7 @@ const ImageInput = forwardRef(({ useFormRegister, error, imageURL }, reviewRef) 
   return (
     <Box mb={4}>
       <div>
-        <Warper>
+        <Warper sx={{ borderColor: error && theme.palette.error['main'] }}>
           <Snoop>
             <input
               // hidden // do NOT make input hidden or display none, the useForm will not recognize input value
@@ -134,7 +126,7 @@ const ImageInput = forwardRef(({ useFormRegister, error, imageURL }, reviewRef) 
                 cursor: isHovering && 'pointer',
                 opacity: showAvatar & !isHovering ? 0 : isHovering ? 0.72 : 1,
                 color: showAvatar && '#ffffff',
-                backgroundColor: showAvatar && '#161c24',
+                backgroundColor: showAvatar ? '#161c24' : error && theme.palette.error['lighter'],
               }}
             >
               <AddAPhotoIcon sx={{}} />
@@ -153,7 +145,7 @@ const ImageInput = forwardRef(({ useFormRegister, error, imageURL }, reviewRef) 
           <Typography
             gutterBottom
             variant="caption"
-            sx={{ color: 'red', display: 'block', mt: 1.5, textAlign: 'center' }}
+            sx={{ color: theme.palette.error['main'], display: 'block', mt: 1.5, textAlign: 'center' }}
           >
             {error}
           </Typography>

@@ -44,10 +44,9 @@ export default function Create() {
 
   const onSubmit = async (data) => {
     const formData = new FormData();
-    formData.append('brand_image', data.brand_image[0]);
+    formData.append('brand_image', data.brand_image !== '' ? data.brand_image : '');
     formData.append('brand_name_en', data.brand_name_en);
     formData.append('brand_name_ar', data.brand_name_ar);
-
     axios
       .post(AppUrl.AllBrands, formData, AppUrl.config)
       .then((response) => {

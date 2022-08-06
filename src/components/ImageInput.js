@@ -89,7 +89,7 @@ const ImageInput = forwardRef(({ useFormRegister, error }, reviewRef) => {
   return (
     <Box mb={4}>
       <div>
-        <Warper sx={{ borderColor: error && theme.palette.error['main'] }}>
+        <Warper sx={{ borderColor: error && !showAvatar && theme.palette.error['main'] }}>
           <Snoop>
             <input
               // hidden // do NOT make input hidden or display none, the useForm will not recognize input value
@@ -126,7 +126,7 @@ const ImageInput = forwardRef(({ useFormRegister, error }, reviewRef) => {
                 cursor: isHovering && 'pointer',
                 opacity: showAvatar & !isHovering ? 0 : isHovering ? 0.72 : 1,
                 color: showAvatar && '#ffffff',
-                backgroundColor: showAvatar ? '#161c24' : error && theme.palette.error['lighter'],
+                backgroundColor: showAvatar ? '#161c24' : error && !showAvatar && theme.palette.error['lighter'],
               }}
             >
               <AddAPhotoIcon sx={{}} />

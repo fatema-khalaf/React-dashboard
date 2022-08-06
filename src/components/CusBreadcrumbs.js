@@ -1,6 +1,7 @@
 // material
 import { styled } from '@mui/material/styles';
 import { Box, Link, Stack, Breadcrumbs, Typography, ListItemIcon } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 
 export default function CusBreadcrumbs({ title, links, page }) {
   const ListItemIconStyle = styled(ListItemIcon)({
@@ -35,8 +36,8 @@ export default function CusBreadcrumbs({ title, links, page }) {
         </Typography>
         <Breadcrumbs disableTypography separator={separator} aria-label="breadcrumb">
           {links.map((link) => (
-            <Typography variant="body2" color="text.primary">
-              <Link underline="hover" color="inherit" href={link.path}>
+            <Typography key={link.name} variant="body2" color="text.primary">
+              <Link underline="hover" color="inherit" component={RouterLink} to={link.path}>
                 {link.name}
               </Link>
             </Typography>

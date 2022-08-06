@@ -75,7 +75,7 @@ export default function Create() {
           title="Create a new brand"
           links={[
             { name: 'Dashboard', path: '/' },
-            { name: 'Brands', path: '/' },
+            { name: 'Brands', path: '/dashboard/brand/list' },
           ]}
           page="New brand"
         />

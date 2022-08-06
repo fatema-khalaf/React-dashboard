@@ -57,6 +57,7 @@ export default function ListBrand() {
           TABLE_HEAD={TABLE_HEAD}
           data={data}
           setIsDeleted={setIsDeleted}
+          avatar={3}
           editURL={`/dashboard/brand/edit/`}
           deleteURL={`${AppUrl.AllBrands}/`}
           isLoading={isLoading}

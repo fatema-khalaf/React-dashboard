@@ -53,7 +53,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function List({ TABLE_HEAD, data, setIsDeleted, editURL, deleteURL, isLoading, error }) {
+export default function List({ TABLE_HEAD, data, setIsDeleted, editURL, deleteURL, isLoading, error, avatar }) {
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -178,7 +178,7 @@ export default function List({ TABLE_HEAD, data, setIsDeleted, editURL, deleteUR
                   </TableRow>
                 )}
               </TableBody>
-              {isUserNotFound && <ListSkeleton TABLE_HEAD={TABLE_HEAD} avatar={3} />}
+              {isUserNotFound && <ListSkeleton TABLE_HEAD={TABLE_HEAD} avatar={avatar} />}
 
               {isUserNotFound && isLoading && (
                 <TableBody>

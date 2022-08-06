@@ -1,28 +1,27 @@
-import { useEffect, useState, useRef } from 'react';
-import axios from 'axios';
+import { useEffect, useState, useRef, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-
 // material
 import { LoadingButton } from '@mui/lab';
-
-import { Grid, Card, TextField, Container, FormControl } from '@mui/material';
-
+import { Grid, Card, Container, FormControl } from '@mui/material';
+// API
+import axios from 'axios';
+import AppUrl from '../../RestAPI/AppUrl';
 // components
 import Page from '../../components/Page';
 import ImageInput from '../../components/ImageInput';
 import CusBreadcrumbs from '../../components/CusBreadcrumbs';
-
-import AppUrl from '../../RestAPI/AppUrl';
-import RestClient from '../../RestAPI/RestClient';
-import { FormProvider, RHFTextField, RHFCheckbox } from '../../components/hook-form';
-import { useAPI, APIContextProvider } from './Context';
+import { FormProvider, RHFTextField } from '../../components/hook-form';
+// Alert context
+import AlertAction from '../../context/alertContext/AlertAction';
+import { AlertContext } from '../../context/alertContext/alert-constext';
 
 export default function EditBrand() {
   const params = useParams();
   const reviewRef = useRef();
   const [imageUrl, setImageUrl] = useState(null);
   const navigate = useNavigate(); // to redirect user to any page
+  const [state, dispatch] = useContext(AlertContext);
 
   const defaultValues = {
     brand_name_en: '',
@@ -56,14 +55,14 @@ export default function EditBrand() {
         setImageUrl(getValues('brand_image'));
         reviewRef.current.addImage(`${AppUrl.BaseURL}${data.attributes.brand_image}`);
 
-        console.log(data);
+        // console.log(data);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
     getData();
   }, [imageUrl]);
-  console.log(imageUrl);
+  // console.log(imageUrl);
 
   // on submit form
   const onSubmit = async (data) => {
@@ -73,13 +72,14 @@ export default function EditBrand() {
     formData.append('brand_image', data.brand_image[0]);
     formData.append('brand_name_en', data.brand_name_en);
     formData.append('brand_name_ar', data.brand_name_ar);
-    console.log(data.brand_image[0]);
+    // console.log(data.brand_image[0]);
     // 💥❌👉 laravel and PHP do NOT accept file in put methods so we need to make it post mathod then add _mathod: put with formData
     axios
       .post(`${AppUrl.AllBrands}/${params.id}`, formData, AppUrl.config)
       .then((response) => {
+        dispatch(AlertAction.showSuccessAlert('Update success!')); // Show alert
         navigate('/dashboard/brand/list'); // redirect user to list page
-        return alert('Updated succecfully');
+        return null;
       })
       .catch((error) => {
         const keys = Object.keys(error.response.data.errors);
@@ -87,7 +87,7 @@ export default function EditBrand() {
           setError(key, { type: 'type', message: error.response.data.errors[key] });
         });
 
-        console.log(error.response.data);
+        // console.log(error.response.data);
         return error.response.data.message;
       });
   };
@@ -110,7 +110,6 @@ export default function EditBrand() {
                 <FormControl sx={{ width: '100%', p: 3 }}>
                   <ImageInput
                     ref={reviewRef}
-                    // imageURL={`http://127.0.0.1:8000/api/v1/${imageUrl}`}
                     useFormRegister={register('brand_image')} // conect the input inside ImageInput with useForm
                     error={errors.brand_image && errors.brand_image.message}
                   />

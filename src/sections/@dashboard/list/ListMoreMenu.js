@@ -1,10 +1,14 @@
 import PropTypes from 'prop-types';
-
-import { useRef, useState } from 'react';
+// React
+import { useContext, useRef, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText, ListItemButton } from '@mui/material';
+// API
 import axios from 'axios';
+// Alert
+import { AlertContext } from '../../../context/alertContext/alert-constext';
+import AlertAction from '../../../context/alertContext/AlertAction';
 // component
 import Iconify from '../../../components/Iconify';
 
@@ -13,14 +17,16 @@ import Iconify from '../../../components/Iconify';
 export default function ListMoreMenu({ editURL, deleteURL, setIsDeleted }) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
-
+  const [state, dispatch] = useContext(AlertContext);
   const handeleDelete = async () => {
     setIsOpen(false);
     await axios
       .delete(deleteURL)
-      .then((response) => alert('deleted'))
+      .then((response) => dispatch(AlertAction.showSuccessAlert('Delete success!')))
       .catch((error) => {
-        alert('This Brand related to many products you need to delete those products first!');
+        dispatch(
+          AlertAction.showErrorAlert('This Brand related to many products you need to delete those products first!')
+        );
         console.error('There was an error!', error);
       });
     setIsDeleted(true);

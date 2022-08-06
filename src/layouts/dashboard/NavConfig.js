@@ -22,6 +22,21 @@ const navConfig = [
     ],
   },
   {
+    title: 'Category',
+    path: '/dashboard/category/',
+    icon: getIcon('eva:pie-chart-2-fill'),
+    children: [
+      {
+        title: 'Create',
+        path: '/dashboard/category/create',
+      },
+      {
+        title: 'List',
+        path: '/dashboard/category/list',
+      },
+    ],
+  },
+  {
     title: 'dashboard',
     path: '/dashboard/app',
     icon: getIcon('eva:pie-chart-2-fill'),

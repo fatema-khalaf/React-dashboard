@@ -11,6 +11,9 @@ import Login from './pages/Login';
 import NotFound from './pages/Page404';
 import Register from './pages/Register';
 import DashboardApp from './pages/DashboardApp';
+import CategoryList from './pages/category/CategoryList';
+import EditCategory from './pages/category/EditCategory';
+import CreateCategory from './pages/category/CreateCategory';
 
 // ----------------------------------------------------------------------
 
@@ -23,6 +26,15 @@ export default function Router() {
         { path: 'create', element: <CreateBrand /> },
         { path: 'list', element: <ListBrand /> },
         { path: 'edit/:id', element: <EditBrand /> },
+      ],
+    },
+    {
+      path: '/dashboard/category',
+      element: <DashboardLayout />,
+      children: [
+        { path: 'create', element: <CreateCategory /> },
+        { path: 'list', element: <CategoryList /> },
+        { path: 'edit/:id', element: <EditCategory /> },
       ],
     },
     {

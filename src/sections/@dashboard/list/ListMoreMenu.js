@@ -25,6 +25,7 @@ export default function ListMoreMenu({ editURL, deleteURL, setIsDeleted }) {
       .then((response) => dispatch(AlertAction.showSuccessAlert('Delete success!')))
       .catch((error) => {
         dispatch(
+          // TODO: display error message from bakend API
           AlertAction.showErrorAlert('This Brand related to many products you need to delete those products first!')
         );
         console.error('There was an error!', error);

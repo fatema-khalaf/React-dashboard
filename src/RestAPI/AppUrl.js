@@ -1,6 +1,5 @@
 class AppUrl {
   static BaseURL = 'http://127.0.0.1:8000/api/v1';
-  //  static BaseURL = 'https://rapi.fgclbd.com/api';
 
   static config = {
     headers: {
@@ -11,6 +10,8 @@ class AppUrl {
   };
 
   static AllBrands = `${this.BaseURL}/brands`;
+
+  static Categries = `${this.BaseURL}/categories`;
 }
 
 export default AppUrl;

@@ -1,31 +1,27 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 // form
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-
 // material
 import { LoadingButton } from '@mui/lab';
 
-import { Grid, Card, TextField, Container, FormControl } from '@mui/material';
+import { Grid, Card, Container, FormControl } from '@mui/material';
 import ImageInput from '../../components/ImageInput';
-
+import AlertAction from '../../context/alertContext/AlertAction';
+import { AlertContext } from '../../context/alertContext/alert-constext';
 // components
 import Page from '../../components/Page';
 import CusBreadcrumbs from '../../components/CusBreadcrumbs';
 
 import AppUrl from '../../RestAPI/AppUrl';
-import RestClient from '../../RestAPI/RestClient';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../components/hook-form';
 
 export default function Create() {
-  const [image, setImage] = useState('');
-  const [imageError, setImageError] = useState('');
-  const [imageFile, setImageFiel] = useState(null);
   const reviewRef = useRef();
   const navigate = useNavigate(); // to redirect user to any page
+  const [state, dispatch] = useContext(AlertContext);
 
   const defaultValues = {
     brand_name_en: '',
@@ -59,14 +55,16 @@ export default function Create() {
         setValue('brand_name_ar', '');
         setValue('brand_image', '');
         reviewRef.current.removeImage(); // Remove the image from the image input
-        navigate('/dashboard/brand/list'); // redirect user to list page
-        return alert('Added succecfully');
+        dispatch(AlertAction.showSuccessAlert('Add success!')); // Show success alert
+        // navigate('/dashboard/brand/list'); // redirect user to list page
+        return null;
       })
       .catch((error) => {
         const keys = Object.keys(error.response.data.errors);
         keys.forEach((key, index) => {
           setError(key, { type: 'type', message: error.response.data.errors[key] });
         });
+        // TODO: Handel error of 404 not found
         return error.response.data.message;
       });
   };

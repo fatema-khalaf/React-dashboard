@@ -9,6 +9,8 @@ import ScrollToTop from './components/ScrollToTop';
 import { BaseOptionChartStyle } from './components/chart/BaseOptionChart';
 
 import Request from './components/requests/BrandsRequest';
+import { AlertProvider } from './context/alertContext/alert-constext';
+import CusSnackbar from './components/CusSnackbar';
 // ----------------------------------------------------------------------
 
 export default function App() {
@@ -16,12 +18,15 @@ export default function App() {
 
   return (
     // <QueryClientProvider client={queryClient}>
-    <ThemeProvider>
-      <ScrollToTop />
-      <BaseOptionChartStyle />
-      {/* <Request /> */}
-      <Router />
-    </ThemeProvider>
+    <AlertProvider>
+      <ThemeProvider>
+        <ScrollToTop />
+        <CusSnackbar />
+        <BaseOptionChartStyle />
+        {/* <Request /> */}
+        <Router />
+      </ThemeProvider>
+    </AlertProvider>
     // </QueryClientProvider>
   );
 }

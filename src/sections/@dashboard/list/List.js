@@ -1,7 +1,6 @@
 /* eslint-disable */
-
 import { filter } from 'lodash';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 // material
 import {
   Card,
@@ -21,6 +20,7 @@ import Scrollbar from '../../../components/Scrollbar';
 import SearchNotFound from '../../../components/SearchNotFound';
 import { ListHead, ListToolbar, ListMoreMenu } from './index';
 import AppUrl from 'src/RestAPI/AppUrl';
+import ListSkeleton from './ListSkeleton';
 
 // ----------------------------------------------------------------------
 
@@ -71,7 +71,6 @@ export default function List({ TABLE_HEAD, data, setIsDeleted, editURL, deleteUR
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
-
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = data.map((n) => n.id);
@@ -116,98 +115,94 @@ export default function List({ TABLE_HEAD, data, setIsDeleted, editURL, deleteUR
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Card>
-      <ListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
-
-      <Scrollbar>
-        <TableContainer sx={{ minWidth: 800, padding: 2 }}>
-          <Table>
-            <ListHead
-              order={order}
-              orderBy={orderBy}
-              headLabel={TABLE_HEAD}
-              rowCount={data.length}
-              numSelected={selected.length}
-              onRequestSort={handleRequestSort}
-              onSelectAllClick={handleSelectAllClick}
-            />
-            <TableBody>
-              {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, key) => {
-                const { id, ...tableCells } = row; // destructuer row object
-                const isItemSelected = selected.indexOf(id) !== -1;
-                return (
-                  <TableRow
-                    hover
-                    key={id}
-                    tabIndex={-1}
-                    role="checkbox"
-                    selected={isItemSelected}
-                    aria-checked={isItemSelected}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, id)} />
-                    </TableCell>
-                    {Object.keys(tableCells).map(function (key, index) {
-                      if (tableCells[key].includes(AppUrl.BaseURL)) {
-                        return (
-                          <TableCell align="left" key={index}>
-                            {isLoading ? (
-                              <Skeleton variant="circular">
-                                <Avatar />
-                              </Skeleton>
-                            ) : (
+    <Fragment>
+      <Card>
+        <ListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+        <Scrollbar>
+          <TableContainer sx={{ minWidth: 800, padding: 2 }}>
+            <Table>
+              <ListHead
+                order={order}
+                orderBy={orderBy}
+                headLabel={TABLE_HEAD}
+                rowCount={data.length}
+                numSelected={selected.length}
+                onRequestSort={handleRequestSort}
+                onSelectAllClick={handleSelectAllClick}
+              />
+              <TableBody>
+                {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, key) => {
+                  const { id, ...tableCells } = row; // destructuer row object
+                  const isItemSelected = selected.indexOf(id) !== -1;
+                  return (
+                    <TableRow
+                      hover
+                      key={id}
+                      tabIndex={-1}
+                      role="checkbox"
+                      selected={isItemSelected}
+                      aria-checked={isItemSelected}
+                    >
+                      <TableCell padding="checkbox">
+                        <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, id)} />
+                      </TableCell>
+                      {Object.keys(tableCells).map(function (key, index) {
+                        if (tableCells[key].includes(AppUrl.BaseURL)) {
+                          return (
+                            <TableCell align="left" key={index}>
                               <Avatar alt={tableCells.avatarUrl} src={tableCells.avatarUrl} />
-                            )}
-                          </TableCell>
-                        );
-                      } else {
-                        return (
-                          <TableCell align="left" key={index}>
-                            {isLoading ? <Skeleton variant="text" width={100} /> : tableCells[key]}
-                          </TableCell>
-                        );
-                      }
-                    })}
+                            </TableCell>
+                          );
+                        } else {
+                          return (
+                            <TableCell align="left" key={index}>
+                              {tableCells[key]}
+                            </TableCell>
+                          );
+                        }
+                      })}
 
-                    <TableCell align="right">
-                      <ListMoreMenu
-                        setIsDeleted={setIsDeleted} // Is deleted to make the deleted data disappears once it deleted
-                        editURL={`${editURL}${id}`}
-                        deleteURL={`${deleteURL}${id}`}
-                      />
+                      <TableCell align="right">
+                        <ListMoreMenu
+                          setIsDeleted={setIsDeleted} // Is deleted to make the deleted data disappears once it deleted
+                          editURL={`${editURL}${id}`}
+                          deleteURL={`${deleteURL}${id}`}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 53 * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+              {isUserNotFound && <ListSkeleton TABLE_HEAD={TABLE_HEAD} avatar={3} />}
+
+              {isUserNotFound && isLoading && (
+                <TableBody>
+                  <TableRow>
+                    <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                      <SearchNotFound searchQuery={filterName} error={error} />
                     </TableCell>
                   </TableRow>
-                );
-              })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 53 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
+                </TableBody>
               )}
-            </TableBody>
+            </Table>
+          </TableContainer>
+        </Scrollbar>
 
-            {isUserNotFound && (
-              <TableBody>
-                <TableRow>
-                  <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                    <SearchNotFound searchQuery={filterName} error={error} />
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            )}
-          </Table>
-        </TableContainer>
-      </Scrollbar>
-
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component="div"
-        count={data.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Card>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={data.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Card>
+    </Fragment>
   );
 }

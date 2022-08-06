@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import React, { useRef, useState, forwardRef, useImperativeHandle, Children, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Box, Typography, Slide, Snackbar } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -38,7 +38,7 @@ const Message = styled('div')(({ theme }) => ({
 
 // -----------------------------------------------------------------------
 
-const CusSnackbar = forwardRef(({}, alertRef) => {
+export default function CusSnackbar() {
   const [state, dispatch] = useContext(AlertContext); // use context hook to call the alert when ever state changes
 
   const [open, setOpen] = React.useState(false);
@@ -54,7 +54,6 @@ const CusSnackbar = forwardRef(({}, alertRef) => {
     setMessageInfo(message);
     if (type !== AlertTypes.NONE) setOpen(true);
   }, [state.alertShower]);
-
   return (
     <Slide direction="left" in={open}>
       <Snackbar
@@ -66,7 +65,7 @@ const CusSnackbar = forwardRef(({}, alertRef) => {
       >
         <SnackbarStyled>
           <Message>
-            <IconHolder sx={type === 'error' ?? { color: '#ff4842', backgroundColor: '#ff323229' }}>
+            <IconHolder sx={type === 'error' ? { color: '#ff4842', backgroundColor: '#ff323229' } : ''}>
               <CheckCircleIcon />
             </IconHolder>
             <Typography variant="subtitle2">{messageInfo}</Typography>
@@ -78,5 +77,4 @@ const CusSnackbar = forwardRef(({}, alertRef) => {
       </Snackbar>
     </Slide>
   );
-});
-export default CusSnackbar;
+}

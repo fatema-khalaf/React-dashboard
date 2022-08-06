@@ -56,7 +56,7 @@ export default function Create() {
         setValue('brand_image', '');
         reviewRef.current.removeImage(); // Remove the image from the image input
         dispatch(AlertAction.showSuccessAlert('Add success!')); // Show success alert
-        // navigate('/dashboard/brand/list'); // redirect user to list page
+        navigate('/dashboard/brand/list'); // redirect user to list page
         return null;
       })
       .catch((error) => {

@@ -1,5 +1,8 @@
 import { useRef, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Navigate, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Cookies from 'universal-cookie';
+
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@mui/material';
@@ -7,6 +10,7 @@ import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@
 import MenuPopover from '../../components/MenuPopover';
 // mocks_
 import account from '../../_mock/account';
+import AppUrl from '../../RestAPI/AppUrl';
 
 // ----------------------------------------------------------------------
 
@@ -38,8 +42,16 @@ export default function AccountPopover() {
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
-
+  const cookies = new Cookies(); // create cookies object
+  const navigate = useNavigate();
   const handleClose = () => {
+    axios
+      .post(`${AppUrl.BaseURL}/admin/logout`, '', AppUrl.config)
+      .then((response) => {
+        cookies.remove('token');
+        navigate('/login', { replace: true }); // redirect to login
+      })
+      .catch((error) => console.log(error.response)); // TODO: handel error
     setOpen(null);
   };
 

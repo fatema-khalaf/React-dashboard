@@ -1,5 +1,8 @@
 import * as Yup from 'yup';
 import { useState } from 'react';
+import axios from 'axios';
+import Cookies from 'universal-cookie';
+
 import { useNavigate } from 'react-router-dom';
 // form
 import { useForm } from 'react-hook-form';
@@ -10,6 +13,7 @@ import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hook-form';
+import AppUrl from '../../../RestAPI/AppUrl';
 
 // ----------------------------------------------------------------------
 
@@ -36,11 +40,32 @@ export default function LoginForm() {
 
   const {
     handleSubmit,
+    setError,
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = async () => {
-    navigate('/dashboard', { replace: true });
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    formData.append('email', data.email);
+    formData.append('password', data.password);
+    console.log(data);
+    axios
+      .post(`${AppUrl.BaseURL}/admin/login`, formData, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+      })
+      .then((response) => {
+        // navigate('/', { replace: true });
+        const token = response.data.access_token;
+        const cookies = new Cookies();
+        cookies.set('token', token, { path: '/' });
+        // console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        setError('email', { type: 'type', message: error.response.data.message });
+        setError('password', { type: 'type', message: error.response.data.message });
+      });
   };
 
   return (

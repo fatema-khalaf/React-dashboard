@@ -1,9 +1,10 @@
 import axios from 'axios';
+import AppUrl from './AppUrl';
 
 class RestClient {
   static GetRequest = (getUrl) => {
     return axios
-      .get(getUrl)
+      .get(getUrl, AppUrl.config)
       .then((response) => {
         return response.data;
       })

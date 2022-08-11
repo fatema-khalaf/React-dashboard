@@ -15,7 +15,6 @@ import DashboardApp from './pages/DashboardApp';
 import CategoryList from './pages/category/CategoryList';
 import EditCategory from './pages/category/EditCategory';
 import CreateCategory from './pages/category/CreateCategory';
-import ProtectedRoute from './sections/ProtectedRouts';
 
 // ----------------------------------------------------------------------
 
@@ -55,7 +54,7 @@ export default function Router() {
             path: '/',
             element: <LogoOnlyLayout />,
             children: [
-              { path: '/', element: <ProtectedRoute /> },
+              { path: '/', element: <Navigate to={'/dashboard/app'} /> },
               { path: 'login', element: <Login /> },
               { path: 'register', element: <Register /> },
               { path: '404', element: <NotFound /> },

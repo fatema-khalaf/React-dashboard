@@ -48,21 +48,17 @@ export default function LoginForm() {
     const formData = new FormData();
     formData.append('email', data.email);
     formData.append('password', data.password);
-    console.log(data);
     axios
       .post(`${AppUrl.BaseURL}/admin/login`, formData, {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
+        // withCredentials:true, // this to accept cookies from api response
       })
       .then((response) => {
-        // navigate('/', { replace: true });
-        const token = response.data.access_token;
-        const cookies = new Cookies();
-        cookies.set('token', token, { path: '/' });
-        // console.log(response);
+        navigate('/', { replace: true }); // redirect to dashboard
+        const token = response.data.access_token; // get token from response
+        const cookies = new Cookies(); // create cookies object
+        cookies.set('token', token, { path: '/' }); // set the token as cookie
       })
       .catch((error) => {
-        console.log(error);
         setError('email', { type: 'type', message: error.response.data.message });
         setError('password', { type: 'type', message: error.response.data.message });
       });

@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 
@@ -54,11 +54,21 @@ export default function LoginForm() {
       })
       .then((response) => {
         navigate('/', { replace: true }); // redirect to dashboard
+        window.location.reload(); // reload the page to solve no data bug
         const token = response.data.access_token; // get token from response
+        const roles = response?.data?.roles; // if there is a roles? get it TODO: add roles to the laravel API
         const cookies = new Cookies(); // create cookies object
         cookies.set('token', token, { path: '/' }); // set the token as cookie
       })
       .catch((error) => {
+        // TODO: handel error with notification
+        // if (!err?.response) {
+        //   setErrMsg('No Server Response');
+        // } else if (err.response?.status === 400) {
+        //   setErrMsg('Missing Username or Password');
+        // } else {
+        //   setErrMsg('Login Failed');
+        // }
         setError('email', { type: 'type', message: error.response.data.message });
         setError('password', { type: 'type', message: error.response.data.message });
       });

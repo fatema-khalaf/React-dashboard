@@ -46,7 +46,7 @@ export default function EditBrand() {
   useEffect(() => {
     async function getData() {
       try {
-        const response = await axios.get(`${AppUrl.AllBrands}/${params.id}`);
+        const response = await axios.get(`${AppUrl.AllBrands}/${params.id}`, AppUrl.config);
         const data = await response.data.data; // must await here else no data will be found
         setValue('brand_name_en', data.attributes.brand_name_en);
         setValue('brand_name_ar', data.attributes.brand_name_ar);

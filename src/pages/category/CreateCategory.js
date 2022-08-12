@@ -1,5 +1,4 @@
-import { useState, useRef, useContext } from 'react';
-import axios from 'axios';
+import { useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // form
@@ -8,7 +7,6 @@ import { useForm } from 'react-hook-form';
 import { LoadingButton } from '@mui/lab';
 
 import { Grid, Card, Container, FormControl } from '@mui/material';
-import ImageInput from '../../components/ImageInput';
 import AlertAction from '../../context/alertContext/AlertAction';
 import { AlertContext } from '../../context/alertContext/alert-constext';
 // components
@@ -16,10 +14,10 @@ import Page from '../../components/Page';
 import CusBreadcrumbs from '../../components/CusBreadcrumbs';
 
 import AppUrl from '../../RestAPI/AppUrl';
-import { FormProvider, RHFTextField, RHFCheckbox } from '../../components/hook-form';
+import { FormProvider, RHFTextField } from '../../components/hook-form';
+import privateAxios from '../../RestAPI/axios';
 
 export default function Create() {
-  const reviewRef = useRef();
   const navigate = useNavigate(); // to redirect user to any page
   const [state, dispatch] = useContext(AlertContext);
 
@@ -38,7 +36,6 @@ export default function Create() {
     handleSubmit,
     formState: { errors },
     setError,
-    register,
     setValue,
   } = methods;
 
@@ -47,8 +44,8 @@ export default function Create() {
     formData.append('category_icon', data.category_icon);
     formData.append('category_name_en', data.category_name_en);
     formData.append('category_name_ar', data.category_name_ar);
-    axios
-      .post(AppUrl.Categries, formData, AppUrl.config)
+    privateAxios
+      .post(AppUrl.Categries, formData)
       .then((response) => {
         setValue('category_name_en', '');
         setValue('category_name_ar', '');

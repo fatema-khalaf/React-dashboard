@@ -1,15 +1,14 @@
-import { useEffect, useState, useRef, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 // material
 import { LoadingButton } from '@mui/lab';
 import { Grid, Card, Container, FormControl } from '@mui/material';
 // API
-import axios from 'axios';
 import AppUrl from '../../RestAPI/AppUrl';
+import privateAxios from '../../RestAPI/axios';
 // components
 import Page from '../../components/Page';
-import ImageInput from '../../components/ImageInput';
 import CusBreadcrumbs from '../../components/CusBreadcrumbs';
 import { FormProvider, RHFTextField } from '../../components/hook-form';
 // Alert context
@@ -18,7 +17,6 @@ import { AlertContext } from '../../context/alertContext/alert-constext';
 
 export default function EditCategory() {
   const params = useParams();
-  const reviewRef = useRef();
   const navigate = useNavigate(); // to redirect user to any page
   const [state, dispatch] = useContext(AlertContext);
 
@@ -43,18 +41,18 @@ export default function EditCategory() {
   useEffect(() => {
     async function getData() {
       try {
-        const response = await axios.get(`${AppUrl.Categries}/${params.id}`);
+        const response = await privateAxios.get(`${AppUrl.Categries}/${params.id}`);
         const data = await response.data.data; // must await here else no data will be found
         setValue('category_name_en', data.attributes.category_name_en);
         setValue('category_name_ar', data.attributes.category_name_ar);
         setValue('category_icon', data.attributes.category_icon);
       } catch (error) {
+        // TODO: Handel errors
         // console.log(error);
       }
     }
     getData();
   }, []);
-  // console.log(imageUrl);
 
   // on submit form
   const onSubmit = async (data) => {
@@ -64,9 +62,8 @@ export default function EditCategory() {
     formData.append('category_icon', data.category_icon);
     formData.append('category_name_en', data.category_name_en);
     formData.append('category_name_ar', data.category_name_ar);
-    // 💥❌👉 laravel and PHP do NOT accept file in put methods so we need to make it post mathod then add _mathod: put with formData
-    axios
-      .post(`${AppUrl.Categries}/${params.id}`, formData, AppUrl.config)
+    privateAxios
+      .post(`${AppUrl.Categries}/${params.id}`, formData)
       .then((response) => {
         dispatch(AlertAction.showSuccessAlert('Update success!')); // Show alert
         navigate('/dashboard/category/list'); // redirect user to list page
@@ -77,8 +74,6 @@ export default function EditCategory() {
         keys.forEach((key, index) => {
           setError(key, { type: 'type', message: error.response.data.errors[key] });
         });
-
-        // console.log(error.response.data);
         return error.response.data.message;
       });
   };
@@ -90,7 +85,7 @@ export default function EditCategory() {
           title="Edit category"
           links={[
             { name: 'Dashboard', path: '/' },
-            { name: 'caategories', path: '/' },
+            { name: 'categories', path: '/dashboard/category/list' },
           ]}
           page="Edit category"
         />

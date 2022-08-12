@@ -25,11 +25,7 @@ export default function RHFSelectField({ name, options, ...other }) {
           {...field}
           fullWidth
           select
-          value={option}
-          onChange={(e) => {
-            field.onChange(e.target.value);
-            setOption(e.target.value);
-          }}
+          value={typeof field.value === 'number' && field.value === 0 ? '' : field.value}
           error={!!error}
           helperText={error?.message}
           {...other}

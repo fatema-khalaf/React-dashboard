@@ -15,7 +15,10 @@ import DashboardApp from './pages/DashboardApp';
 import CategoryList from './pages/category/CategoryList';
 import EditCategory from './pages/category/EditCategory';
 import CreateCategory from './pages/category/CreateCategory';
-import { SubcategoryList, EditSubcategory, CreateSubcategory } from './pages/subcategory'; // ----------------------------------------------------------------------
+import { SubcategoryList, EditSubcategory, CreateSubcategory } from './pages/subcategory';
+import { SubsubcategoryList, EditSubsubcategory, CreateSubsubcategory } from './pages/subsubcategory';
+
+// ----------------------------------------------------------------------
 
 export default function Router() {
   const cookies = new Cookies();
@@ -48,6 +51,15 @@ export default function Router() {
               { path: 'create', element: <CreateSubcategory /> },
               { path: 'list', element: <SubcategoryList /> },
               { path: 'edit/:id', element: <EditSubcategory /> },
+            ],
+          },
+          {
+            path: '/dashboard/subsubcategory',
+            element: <DashboardLayout />,
+            children: [
+              { path: 'create', element: <CreateSubsubcategory /> },
+              { path: 'list', element: <SubsubcategoryList /> },
+              { path: 'edit/:id', element: <EditSubsubcategory /> },
             ],
           },
           {

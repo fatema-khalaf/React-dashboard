@@ -4,6 +4,8 @@ class AppUrl {
   static Categries = '/categories';
 
   static Subcategories = '/subcategories';
+
+  static Subsubcategories = '/subsubcategories';
 }
 
 export default AppUrl;

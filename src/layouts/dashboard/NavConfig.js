@@ -41,6 +41,21 @@ const navConfig = [
       },
     ],
   },
+  {
+    title: 'Subcategory',
+    path: '/dashboard/subcategory/',
+    icon: getIcon('eva:pie-chart-2-fill'),
+    children: [
+      {
+        title: 'Create',
+        path: '/dashboard/subcategory/create',
+      },
+      {
+        title: 'List',
+        path: '/dashboard/subcategory/list',
+      },
+    ],
+  },
 
   {
     title: 'user',

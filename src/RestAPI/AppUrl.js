@@ -17,6 +17,8 @@ class AppUrl {
   static AllBrands = `${this.BaseURL}/brands`;
 
   static Categries = `${this.BaseURL}/categories`;
+
+  static Subcategories = `${this.BaseURL}/subcategories`;
 }
 
 export default AppUrl;

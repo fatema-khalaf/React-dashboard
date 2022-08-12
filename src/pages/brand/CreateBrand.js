@@ -1,5 +1,4 @@
-import { useState, useRef, useContext } from 'react';
-import axios from 'axios';
+import { useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // form
@@ -17,6 +16,7 @@ import CusBreadcrumbs from '../../components/CusBreadcrumbs';
 
 import AppUrl from '../../RestAPI/AppUrl';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../components/hook-form';
+import privateAxios from '../../RestAPI/axios';
 
 export default function Create() {
   const reviewRef = useRef();
@@ -47,8 +47,8 @@ export default function Create() {
     formData.append('brand_image', data.brand_image !== '' ? data.brand_image[0] : '');
     formData.append('brand_name_en', data.brand_name_en);
     formData.append('brand_name_ar', data.brand_name_ar);
-    axios
-      .post(AppUrl.AllBrands, formData, AppUrl.config)
+    privateAxios
+      .post(AppUrl.Brands, formData)
       .then((response) => {
         setValue('brand_name_en', '');
         setValue('brand_name_ar', '');

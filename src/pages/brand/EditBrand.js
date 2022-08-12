@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 import { LoadingButton } from '@mui/lab';
 import { Grid, Card, Container, FormControl } from '@mui/material';
 // API
-import axios from 'axios';
 import AppUrl from '../../RestAPI/AppUrl';
 // components
 import Page from '../../components/Page';
@@ -15,6 +14,7 @@ import { FormProvider, RHFTextField } from '../../components/hook-form';
 // Alert context
 import AlertAction from '../../context/alertContext/AlertAction';
 import { AlertContext } from '../../context/alertContext/alert-constext';
+import privateAxios from '../../RestAPI/axios';
 
 export default function EditBrand() {
   const params = useParams();
@@ -46,7 +46,7 @@ export default function EditBrand() {
   useEffect(() => {
     async function getData() {
       try {
-        const response = await axios.get(`${AppUrl.AllBrands}/${params.id}`, AppUrl.config);
+        const response = await privateAxios.get(`${AppUrl.Brands}/${params.id}`);
         const data = await response.data.data; // must await here else no data will be found
         setValue('brand_name_en', data.attributes.brand_name_en);
         setValue('brand_name_ar', data.attributes.brand_name_ar);
@@ -54,15 +54,13 @@ export default function EditBrand() {
         console.log(getValues('brand_image'));
         setImageUrl(getValues('brand_image'));
         reviewRef.current.addImage(`${AppUrl.BaseURL}${data.attributes.brand_image}`);
-
-        // console.log(data);
       } catch (error) {
+        // TODO: handel error
         // console.log(error);
       }
     }
     getData();
   }, [imageUrl]);
-  // console.log(imageUrl);
 
   // on submit form
   const onSubmit = async (data) => {
@@ -72,10 +70,9 @@ export default function EditBrand() {
     formData.append('brand_image', data.brand_image[0]);
     formData.append('brand_name_en', data.brand_name_en);
     formData.append('brand_name_ar', data.brand_name_ar);
-    // console.log(data.brand_image[0]);
     // 💥❌👉 laravel and PHP do NOT accept file in put methods so we need to make it post mathod then add _mathod: put with formData
-    axios
-      .post(`${AppUrl.AllBrands}/${params.id}`, formData, AppUrl.config)
+    privateAxios
+      .post(`${AppUrl.Brands}/${params.id}`, formData)
       .then((response) => {
         dispatch(AlertAction.showSuccessAlert('Update success!')); // Show alert
         navigate('/dashboard/brand/list'); // redirect user to list page
@@ -87,7 +84,6 @@ export default function EditBrand() {
           setError(key, { type: 'type', message: error.response.data.errors[key] });
         });
 
-        // console.log(error.response.data);
         return error.response.data.message;
       });
   };

@@ -28,7 +28,7 @@ export default function ListBrand() {
   const [error, setError] = useState(null);
   useEffect(() => {
     setIsLoading(true);
-    RestClient.GetRequest(AppUrl.AllBrands).then((res) => {
+    RestClient.GetRequest(AppUrl.Brands).then((res) => {
       if (!res) {
         setError('Internal Error, Please try again later!');
       }
@@ -59,7 +59,7 @@ export default function ListBrand() {
           setIsDeleted={setIsDeleted}
           avatar={3}
           editURL={`/dashboard/brand/edit/`}
-          deleteURL={`${AppUrl.AllBrands}/`}
+          deleteURL={`${AppUrl.Brands}/`}
           isLoading={isLoading}
           error={error}
         />

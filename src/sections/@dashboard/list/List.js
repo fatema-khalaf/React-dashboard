@@ -147,7 +147,7 @@ export default function List({ TABLE_HEAD, data, setIsDeleted, editURL, deleteUR
                         <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, id)} />
                       </TableCell>
                       {Object.keys(tableCells).map(function (key, index) {
-                        if (tableCells[key].includes(AppUrl.BaseURL)) {
+                        if (tableCells[key]?.includes(AppUrl.BaseURL)) {
                           return (
                             <TableCell align="left" key={index}>
                               <Avatar alt={tableCells.avatarUrl} src={tableCells.avatarUrl} />

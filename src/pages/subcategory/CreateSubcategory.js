@@ -1,5 +1,4 @@
 import { useState, useRef, useContext, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 // material
 import { LoadingButton } from '@mui/lab';
@@ -14,6 +13,7 @@ import { AlertContext } from '../../context/alertContext/alert-constext';
 import Page from '../../components/Page';
 import CusBreadcrumbs from '../../components/CusBreadcrumbs';
 // API
+import privateAxios from '../../RestAPI/axios';
 import RestClient from '../../RestAPI/RestClient';
 import AppUrl from '../../RestAPI/AppUrl';
 
@@ -63,8 +63,8 @@ export default function CreateSubcategory() {
     formData.append('category_id', data.category_id);
     formData.append('subcategory_name_en', data.subcategory_name_en);
     formData.append('subcategory_name_ar', data.subcategory_name_ar);
-    axios
-      .post(AppUrl.Subcategories, formData, AppUrl.config)
+    privateAxios
+      .post(AppUrl.Subcategories, formData)
       .then((response) => {
         setValue('subcategory_name_en', '');
         setValue('subcategory_name_ar', '');

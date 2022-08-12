@@ -5,7 +5,7 @@ import { Link as RouterLink } from 'react-router-dom';
 // material
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText, ListItemButton } from '@mui/material';
 // API
-import axios from 'axios';
+import privateAxios from '../../../RestAPI/axios';
 // Alert
 import { AlertContext } from '../../../context/alertContext/alert-constext';
 import AlertAction from '../../../context/alertContext/AlertAction';
@@ -18,9 +18,10 @@ export default function ListMoreMenu({ editURL, deleteURL, setIsDeleted }) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [state, dispatch] = useContext(AlertContext);
+
   const handeleDelete = async () => {
     setIsOpen(false);
-    await axios
+    await privateAxios
       .delete(deleteURL)
       .then((response) => dispatch(AlertAction.showSuccessAlert('Delete success!')))
       .catch((error) => {

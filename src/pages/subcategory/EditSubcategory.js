@@ -14,6 +14,7 @@ import { FormProvider, RHFTextField, RHFSelectField } from '../../components/hoo
 // Alert context
 import AlertAction from '../../context/alertContext/AlertAction';
 import { AlertContext } from '../../context/alertContext/alert-constext';
+import privateAxios from '../../RestAPI/axios';
 
 export default function EditSubcategory() {
   const params = useParams();
@@ -42,7 +43,7 @@ export default function EditSubcategory() {
   useEffect(() => {
     async function getData() {
       try {
-        const response = await axios.get(`${AppUrl.Subcategories}/${params.id}?include=category`, AppUrl.config);
+        const response = await privateAxios.get(`${AppUrl.Subcategories}/${params.id}?include=category`);
         const data = await response.data.data; // must await here else no data will be found
         setValue('category_id', data.attributes.category.id);
         setValue('subcategory_name_en', data.attributes.subcategory_name_en);
@@ -51,7 +52,7 @@ export default function EditSubcategory() {
         console.log(error);
       }
       try {
-        const response = await axios.get(AppUrl.Categries, AppUrl.config);
+        const response = await privateAxios.get(AppUrl.Categries);
         const data = await response.data.data; // must await here else no data will be found
         console.log(data);
         return setCategories(
@@ -76,8 +77,8 @@ export default function EditSubcategory() {
     formData.append('category_id', data.category_id);
     formData.append('subcategory_name_en', data.subcategory_name_en);
     formData.append('subcategory_name_ar', data.subcategory_name_ar);
-    axios
-      .post(`${AppUrl.Subcategories}/${params.id}`, formData, AppUrl.config)
+    privateAxios
+      .post(`${AppUrl.Subcategories}/${params.id}`, formData)
       .then((response) => {
         dispatch(AlertAction.showSuccessAlert('Update success!')); // Show alert
         navigate('/dashboard/subcategory/list'); // redirect user to list page

@@ -34,7 +34,7 @@ export default function CusBreadcrumbs({ title, links, page }) {
         <Typography variant="h4" gutterBottom>
           {title}
         </Typography>
-        <Breadcrumbs disableTypography separator={separator} aria-label="breadcrumb">
+        <Breadcrumbs separator={separator} aria-label="breadcrumb">
           {links.map((link) => (
             <Typography key={link.name} variant="body2" color="text.primary">
               <Link underline="hover" color="inherit" component={RouterLink} to={link.path}>

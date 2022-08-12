@@ -1,10 +1,11 @@
 import axios from 'axios';
 import AppUrl from './AppUrl';
+import privateAxios from './axios';
 
 class RestClient {
   static GetRequest = (getUrl) => {
-    return axios
-      .get(getUrl, AppUrl.config)
+    return privateAxios
+      .get(getUrl)
       .then((response) => {
         return response.data;
       })
@@ -14,16 +15,8 @@ class RestClient {
   };
 
   static PostRequest = (postUrl, postJson) => {
-    const config = {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    };
-
-    return axios
-      .post(postUrl, postJson, config)
+    return privateAxios
+      .post(postUrl, postJson)
       .then((response) => {
         return response;
       })

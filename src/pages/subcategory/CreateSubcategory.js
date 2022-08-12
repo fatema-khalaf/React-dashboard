@@ -74,12 +74,23 @@ export default function CreateSubcategory() {
         return response;
       })
       .catch((error) => {
-        const keys = Object.keys(error.response.data.errors);
-        keys.forEach((key, index) => {
-          setError(key, { type: 'type', message: error.response.data.errors[key] });
-        });
-        // TODO: Handel error of 404 not found
-        return error.response.data.message;
+        if (!error.response.data) {
+          return dispatch(AlertAction.showErrorAlert('Server Not availabe, Please try again later!'));
+        }
+        if (error.response.data) {
+          // Request made and server responded
+          if (error.response.status === 404) {
+            dispatch(AlertAction.showErrorAlert('Something went wrong, Please try again later!'));
+          } else {
+            const keys = Object.keys(error.response.data.errors);
+            keys.forEach((key, index) => {
+              setError(key, { type: 'type', message: error.response.data.errors[key] });
+            });
+          }
+        } else {
+          // Something happened in setting up the request that triggered an
+          return dispatch(AlertAction.showErrorAlert('Internal Error, Please try again later!'));
+        }
       });
   };
 

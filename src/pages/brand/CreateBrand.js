@@ -83,10 +83,12 @@ export default function Create() {
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={4}>
               <Card sx={{ p: 2 }}>
+                {/* <input type="file" {...register('brand_image')} onChange={(e) => console.log(e.target)} /> */}
                 <FormControl sx={{ width: '100%', p: 3 }}>
                   <ImageInput
                     ref={reviewRef}
-                    useFormRegister={register('brand_image')} // conect the input inside ImageInput with useForm
+                    name="brand_image"
+                    useFormRegister={register} // conect the input inside ImageInput with useForm
                     error={errors.brand_image && errors.brand_image.message}
                   />
                 </FormControl>

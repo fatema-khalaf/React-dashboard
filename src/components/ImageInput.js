@@ -96,7 +96,6 @@ const ImageInput = forwardRef(({ useFormRegister, error, squire, name }, reviewR
               // hidden // do NOT make input hidden or display none, the useForm will not recognize input value
               id="input"
               accept="image/*"
-              name="brand_image"
               {...useFormRegister(name, {
                 onChange: (e) => reviewImage(e),
               })} // useForm code to make the input discoverable from useForm

@@ -6,10 +6,6 @@ import Downshift from 'downshift';
 import { alpha, styled, useTheme } from '@mui/material/styles';
 
 export default function TagsInput({ ...props }) {
-  const styledDiv = styled('div')({
-    '&:first-child': { flexWrap: 'warp' },
-  });
-
   const { selectedTags, placeholder, tags, name, ...other } = props;
   const [inputValue, setInputValue] = useState('');
   const [selectedItem, setSelectedItem] = useState([]);
@@ -67,7 +63,7 @@ export default function TagsInput({ ...props }) {
             placeholder,
           });
           return (
-            <styledDiv>
+            <div>
               <TextField
                 sx={{ 'div:first-of-type': { flexWrap: 'wrap' } }}
                 InputProps={{
@@ -91,7 +87,7 @@ export default function TagsInput({ ...props }) {
                 {...other}
                 {...inputProps}
               />
-            </styledDiv>
+            </div>
           );
         }}
       </Downshift>

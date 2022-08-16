@@ -96,7 +96,15 @@ function DropBox({ selectedFiles, setRequired, required }) {
           </div>
         </Section>
       </Warper>
-      {/* <button className="upload-btn">Upload Images</button> */}
+      <Typography
+        variant="caption"
+        mb={1}
+        sx={{
+          color: theme.palette.error.main,
+        }}
+      >
+        {required && required}
+      </Typography>
       <ShowImage images={images} setImages={setImages} setSendImages={setSendImages} sendImages={sendImages} />
     </Box>
   );

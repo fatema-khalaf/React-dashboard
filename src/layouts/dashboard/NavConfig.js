@@ -71,6 +71,21 @@ const navConfig = [
       },
     ],
   },
+  {
+    title: 'product',
+    path: '/dashboard/product/',
+    icon: getIcon('eva:pie-chart-2-fill'),
+    children: [
+      {
+        title: 'Create',
+        path: '/dashboard/product/create',
+      },
+      {
+        title: 'List',
+        path: '/dashboard/product/list',
+      },
+    ],
+  },
 
   {
     title: 'user',

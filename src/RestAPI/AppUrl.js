@@ -1,4 +1,6 @@
 class AppUrl {
+  static BaseURL = 'http://127.0.0.1:8000/api/v1';
+
   static Brands = '/brands';
 
   static Categries = '/categories';
@@ -6,6 +8,8 @@ class AppUrl {
   static Subcategories = '/subcategories';
 
   static Subsubcategories = '/subsubcategories';
+
+  static Products = '/products';
 }
 
 export default AppUrl;

@@ -17,7 +17,7 @@ import EditCategory from './pages/category/EditCategory';
 import CreateCategory from './pages/category/CreateCategory';
 import { SubcategoryList, EditSubcategory, CreateSubcategory } from './pages/subcategory';
 import { SubsubcategoryList, EditSubsubcategory, CreateSubsubcategory } from './pages/subsubcategory';
-import { CreateProduct } from './pages/product';
+import { CreateProduct, ProductList } from './pages/product';
 
 // ----------------------------------------------------------------------
 
@@ -68,7 +68,7 @@ export default function Router() {
             element: <DashboardLayout />,
             children: [
               { path: 'create', element: <CreateProduct /> },
-              // { path: 'list', element: <SubsubcategoryList /> },
+              { path: 'list', element: <ProductList /> },
               // { path: 'edit/:id', element: <EditSubsubcategory /> },
             ],
           },

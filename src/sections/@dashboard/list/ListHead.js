@@ -2,7 +2,9 @@ import PropTypes from 'prop-types';
 // material
 import { Box, Checkbox, TableRow, TableCell, TableHead, TableSortLabel } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
-
+import IconButton from '@mui/material/IconButton';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 // ----------------------------------------------------------------------
 
 const visuallyHidden = {
@@ -32,16 +34,20 @@ ListHead.propTypes = {
   numSelected: PropTypes.number,
   onRequestSort: PropTypes.func,
   onSelectAllClick: PropTypes.func,
+  onExpandAllClick: PropTypes.func,
 };
 
 export default function ListHead({
+  open,
   order,
   orderBy,
   rowCount,
   headLabel,
+  withCollapse,
   numSelected,
   onRequestSort,
   onSelectAllClick,
+  onCollapsAllClick,
 }) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -56,6 +62,11 @@ export default function ListHead({
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
           />
+          {withCollapse && (
+            <IconButton sx={{ padding: '9px' }} aria-label="expand row" size="small" onClick={onCollapsAllClick}>
+              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          )}
         </TableCell>
         {headLabel.map((headCell) => (
           <TableCell

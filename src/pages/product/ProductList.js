@@ -54,7 +54,6 @@ export default function ListBrand() {
       }
       return setData(
         res.data.map((item) => {
-          console.log(item.attributes.selling_price);
           return {
             id: item.id,
             name_en: item.attributes.product_name_en,

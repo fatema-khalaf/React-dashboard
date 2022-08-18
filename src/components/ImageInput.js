@@ -58,7 +58,6 @@ const ImageInput = forwardRef(({ useFormRegister, error, squire, name }, reviewR
     const [file] = e.target.files;
 
     setAvatarUrl(URL.createObjectURL(e.target.files[0]));
-    console.log(file);
     setShowAvatar(true);
   };
 
@@ -71,7 +70,6 @@ const ImageInput = forwardRef(({ useFormRegister, error, squire, name }, reviewR
     },
     addImage(imageUrl) {
       setAvatarUrl(imageUrl);
-      console.log('changed');
       setShowAvatar(true);
     },
   }));
@@ -79,7 +77,6 @@ const ImageInput = forwardRef(({ useFormRegister, error, squire, name }, reviewR
   // click on input feild when user clicks on content div
   const clickInput = () => {
     document.getElementById('input').click();
-    console.log(document.getElementById('input').value);
   };
 
   // make onchange executes tow functions
@@ -121,6 +118,7 @@ const ImageInput = forwardRef(({ useFormRegister, error, squire, name }, reviewR
                 width: '100%',
                 height: '100%',
                 display: showAvatar ? '' : 'none',
+                borderRadius: squire ? '8px' : '50%',
               }}
             />
             <Content

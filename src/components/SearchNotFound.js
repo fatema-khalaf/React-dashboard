@@ -15,7 +15,6 @@ export default function SearchNotFound({ searchQuery = '', error, ...other }) {
       <strong>&quot;{searchQuery}&quot;</strong>. Try checking for typos or using complete words.
     </div>
   );
-  console.log(error);
   return (
     <Paper {...other}>
       <Typography gutterBottom align="center" variant="subtitle1">

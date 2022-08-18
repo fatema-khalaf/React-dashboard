@@ -24,7 +24,6 @@ function DropBox({ selectedFiles, setRequired, required, initialImages }) {
   // functions ---------------------------------------------------------------
   const [images, setImages] = useState([]); // preview images
   const [sendImages, setSendImages] = useState([]); // final files to submit
-  console.log(initialImages);
   const onDrop = useCallback((acceptedFiles) => {
     setRequired(false);
     acceptedFiles.map((file, index) => {
@@ -51,7 +50,9 @@ function DropBox({ selectedFiles, setRequired, required, initialImages }) {
 
   // set images if there are initailimages (for update case)
   useEffect(() => {
-    setImages(initialImages);
+    if (initialImages) {
+      setImages(initialImages);
+    }
   }, [initialImages]);
 
   return (

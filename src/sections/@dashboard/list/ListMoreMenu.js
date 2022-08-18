@@ -19,7 +19,7 @@ export default function ListMoreMenu({ editURL, deleteURL, setIsDeleted }) {
   const [isOpen, setIsOpen] = useState(false);
   const [state, dispatch] = useContext(AlertContext);
 
-  //==================== use custom Hook ==========================
+  // ==================== use custom Hook ==========================
   // TODO: create custom hook for delete functionality
   const handeleDelete = async () => {
     setIsOpen(false);
@@ -36,7 +36,7 @@ export default function ListMoreMenu({ editURL, deleteURL, setIsDeleted }) {
     setIsDeleted(true);
   };
 
-  //==================== use custom Hook ==========================
+  // ==================== use custom Hook ==========================
 
   // prop type
   ListMoreMenu.propTypes = {

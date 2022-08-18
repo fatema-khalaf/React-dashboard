@@ -19,6 +19,8 @@ export default function ListMoreMenu({ editURL, deleteURL, setIsDeleted }) {
   const [isOpen, setIsOpen] = useState(false);
   const [state, dispatch] = useContext(AlertContext);
 
+  //==================== use custom Hook ==========================
+  // TODO: create custom hook for delete functionality
   const handeleDelete = async () => {
     setIsOpen(false);
     await privateAxios
@@ -33,6 +35,9 @@ export default function ListMoreMenu({ editURL, deleteURL, setIsDeleted }) {
       });
     setIsDeleted(true);
   };
+
+  //==================== use custom Hook ==========================
+
   // prop type
   ListMoreMenu.propTypes = {
     editURL: PropTypes.string, // edit route url

@@ -3,10 +3,14 @@ import IconButton from '@mui/material/IconButton';
 import ClearIcon from '@mui/icons-material/Clear';
 import { alpha, styled, useTheme } from '@mui/material/styles';
 import { Slide } from '@mui/material';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import privateAxios from '../../../RestAPI/axios';
+import { AlertContext } from '../../../context/alertContext/alert-constext';
+import AlertAction from '../../../context/alertContext/AlertAction';
 
-export default function ShowImage({ images, setImages, setSendImages }) {
+export default function ShowImage({ images, setImages, setSendImages, sendImages }) {
   // Style--------------------------------------------------------------
+
   const theme = useTheme();
   const Warper = styled('div')(({ theme }) => ({
     alignItems: 'flex-start',
@@ -51,10 +55,33 @@ export default function ShowImage({ images, setImages, setSendImages }) {
   // Functionality------------------------------------------------------------------
   const [slide, setSlide] = useState(true);
 
+  //==================== use custom Hook ==========================
+  // TODO: create custom hook for delete functionality
+  const [state, dispatch] = useContext(AlertContext);
+  const deleteImage = async (image) => {
+    await privateAxios
+      .delete(image.deleteUrl)
+      .then((response) => dispatch(AlertAction.showSuccessAlert('Delete success!')))
+      .catch((error) => {
+        dispatch(
+          // TODO: display error message from backend API
+          AlertAction.showErrorAlert('Can not delete, please try again later!')
+        );
+      });
+  };
+  //==================== use custom Hook ==========================
+
   const removeImage = (image) => {
     setSlide(false);
     setImages((prevState) => prevState.filter((item) => item.id !== image.id)); // remove image from preview
-    setSendImages((prevState) => prevState.filter((item) => item.id !== image.id)); // remove image from files list
+    // Check if the image in file input value (create case)
+    if (!('deleteUrl' in image)) {
+      setSendImages((prevState) => prevState.filter((item) => item.id !== image.id)); // remove image from files list
+      // Else the image not in input file value (update case)
+    } else {
+      deleteImage(image);
+    }
+    // Reset slide to make not deleted images visibale
     setTimeout(() => {
       setSlide((prev) => !prev);
     }, 100);

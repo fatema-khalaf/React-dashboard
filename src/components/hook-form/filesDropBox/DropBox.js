@@ -7,7 +7,7 @@ import ShowImage from './ShowImages';
 import Svg from './SVG';
 import useResponsive from '../../../hooks/useResponsive';
 
-function DropBox({ selectedFiles, setRequired, required }) {
+function DropBox({ selectedFiles, setRequired, required, initialImages }) {
   // Styling---------------------------------------------------------------
   const theme = useTheme();
   const mdUp = useResponsive('up', 'md');
@@ -24,7 +24,7 @@ function DropBox({ selectedFiles, setRequired, required }) {
   // functions ---------------------------------------------------------------
   const [images, setImages] = useState([]); // preview images
   const [sendImages, setSendImages] = useState([]); // final files to submit
-
+  console.log(initialImages);
   const onDrop = useCallback((acceptedFiles) => {
     setRequired(false);
     acceptedFiles.map((file, index) => {
@@ -48,6 +48,11 @@ function DropBox({ selectedFiles, setRequired, required }) {
   useEffect(() => {
     selectedFiles(sendImages);
   }, [sendImages, selectedFiles]);
+
+  // set images if there are initailimages (for update case)
+  useEffect(() => {
+    setImages(initialImages);
+  }, [initialImages]);
 
   return (
     <Box sx={{ width: '100%' }}>

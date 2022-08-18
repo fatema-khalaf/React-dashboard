@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Box, Typography, Avatar } from '@mui/material';
 import { alpha, styled, useTheme } from '@mui/material/styles';
+import { v4 as uuidv4 } from 'uuid';
 import ShowImage from './ShowImages';
 import Svg from './SVG';
 import useResponsive from '../../../hooks/useResponsive';
@@ -11,22 +12,6 @@ function DropBox({ selectedFiles, setRequired, required }) {
   const theme = useTheme();
   const mdUp = useResponsive('up', 'md');
 
-  const Warper = styled('div')(({ theme }) => ({
-    outline: 'none',
-    padding: '40px 8px',
-    borderRadius: '8px',
-    backgroundColor: 'rgb(244, 246, 248)',
-    border: `1px dashed ${alpha(theme.palette.grey[500], 0.32)}`,
-    '&:hover': { opacity: '0.72', cursor: 'pointer' },
-  }));
-  const Section = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    textAlign: !mdUp && 'center',
-    flexDirection: !mdUp && 'column',
-  }));
   const Span = styled('span')(({ theme }) => ({
     margin: ' 0px',
     lineHeight: '1.57143',
@@ -39,26 +24,24 @@ function DropBox({ selectedFiles, setRequired, required }) {
   // functions ---------------------------------------------------------------
   const [images, setImages] = useState([]); // preview images
   const [sendImages, setSendImages] = useState([]); // final files to submit
+
   const onDrop = useCallback((acceptedFiles) => {
     setRequired(false);
-    console.log(required);
-
     acceptedFiles.map((file, index) => {
       const reader = new FileReader();
       reader.onload = function (e) {
-        setImages((prevState) => [...prevState, { id: index, src: e.target.result }]);
-        setSendImages((prevState) => [...prevState, { id: index, file }]);
+        const id = uuidv4(); // create uniqe id for each file
+        setImages((prevState) => [...prevState, { id, src: e.target.result }]);
+        setSendImages((prevState) => [...prevState, { id, file }]);
       };
       reader.readAsDataURL(file);
       return file;
     });
   }, []);
 
-  const { getRootProps, getInputProps, acceptedFiles, open, isDragAccept, isFocused, isDragReject } = useDropzone({
+  const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     accept: 'image/*',
     onDrop,
-    noClick: true,
-    noKeyboard: true,
   });
 
   // Set the final files for submitting
@@ -68,18 +51,31 @@ function DropBox({ selectedFiles, setRequired, required }) {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Warper
-        onClick={open}
-        sx={{
-          borderColor: required && theme.palette.error.main,
-          backgroundColor: required && theme.palette.error.lighter,
+      <div
+        style={{
+          outline: 'none',
+          padding: '40px 8px',
+          borderRadius: '8px',
+          backgroundColor: required ? theme.palette.error.lighter : 'rgb(244, 246, 248)',
+          border: `1px dashed ${required ? theme.palette.error.main : theme.palette.grey[500_32]}`,
+          '&:hover': { opacity: '0.72', cursor: 'pointer' },
         }}
       >
-        <Section>
+        <div
+          {...getRootProps()}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+            textAlign: !mdUp && 'center',
+            flexDirection: !mdUp && 'column',
+          }}
+        >
           <Box sx={{ width: '220px' }}>
             <Svg />
           </Box>
-          <div style={{ padding: '24px' }} {...getRootProps({ isDragAccept, isFocused, isDragReject })}>
+          <div>
             <input {...getInputProps()} />
             <Typography
               variant="h5"
@@ -94,8 +90,8 @@ function DropBox({ selectedFiles, setRequired, required }) {
               Drop files here or click <Span>Browse</Span> thorough your machine
             </p>
           </div>
-        </Section>
-      </Warper>
+        </div>
+      </div>
       <Typography
         variant="caption"
         mb={1}

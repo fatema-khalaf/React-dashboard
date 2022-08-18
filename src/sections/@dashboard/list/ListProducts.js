@@ -119,7 +119,7 @@ export default function ListProducts({
       } else {
         setCollapsed((prevState) => prevState.filter((item) => item !== id)); // remove image from preview
       }
-      console.log(collapsed);
+      // console.log(collapsed);
     } else {
       setOpen(!open);
       setCollapsId(id);
@@ -274,7 +274,7 @@ export default function ListProducts({
                                   >
                                     <TableRow>
                                       {COLLAPS_HEAD.map((element) => {
-                                        console.log(element.label);
+                                        // console.log(element.label);
                                         return <TableCell>{element.label}</TableCell>;
                                       })}
                                     </TableRow>

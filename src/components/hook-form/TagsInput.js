@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Chip, TextField } from '@mui/material';
 import Downshift from 'downshift';
 import { alpha, styled, useTheme } from '@mui/material/styles';
+import { initial } from 'lodash';
 
 export default function TagsInput({ ...props }) {
   const { selectedTags, placeholder, tags, name, ...other } = props;

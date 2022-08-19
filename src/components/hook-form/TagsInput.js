@@ -11,7 +11,9 @@ export default function TagsInput({ ...props }) {
   const [inputValue, setInputValue] = useState('');
   const [selectedItem, setSelectedItem] = useState([]);
   useEffect(() => {
-    setSelectedItem(tags.toString().split(',')); // without to string couses error
+    if (!tags.length == 0) {
+      setSelectedItem(tags.toString().split(',')); // without to string couses error
+    }
   }, [tags]);
   useEffect(() => {
     selectedTags(selectedItem);

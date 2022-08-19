@@ -3,15 +3,13 @@ import { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Chip, TextField } from '@mui/material';
 import Downshift from 'downshift';
-import { alpha, styled, useTheme } from '@mui/material/styles';
-import { initial } from 'lodash';
 
 export default function TagsInput({ ...props }) {
   const { selectedTags, placeholder, tags, name, ...other } = props;
   const [inputValue, setInputValue] = useState('');
   const [selectedItem, setSelectedItem] = useState([]);
   useEffect(() => {
-    if (!tags.length == 0) {
+    if (!tags?.length == 0) {
       setSelectedItem(tags.toString().split(',')); // without to string couses error
     }
   }, [tags]);

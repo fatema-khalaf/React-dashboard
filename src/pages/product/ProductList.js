@@ -14,8 +14,8 @@ import AppUrl from 'src/RestAPI/AppUrl';
 
 const TABLE_HEAD = [
   { id: 'name_en', label: 'Name english', alignRight: false },
-  { id: 'brand_id', label: 'Brand', alignRight: false },
-  { id: 'subsubcategory_id', label: 'Subsubcategory', alignRight: false },
+  { id: 'brand_name_en', label: 'Brand', alignRight: false },
+  { id: 'subsubcategory_name_en', label: 'Subsubcategory', alignRight: false },
   { id: 'product_qty', label: 'Quantity', alignRight: false },
   { id: 'selling_price', label: 'Price', alignRight: false },
   { id: 'product_tags_en', label: 'Tags', alignRight: false },
@@ -57,8 +57,8 @@ export default function ListBrand() {
           return {
             id: item.id,
             name_en: item.attributes.product_name_en,
-            brand_id: item.attributes.brand_id,
-            subsubcategory_id: item.attributes.subsubcategory_id,
+            brand_name_en: item.attributes.brand_name_en,
+            subsubcategory_name_en: item.attributes.subsubcategory_name_en,
             product_qty: item.attributes.product_qty,
             selling_price: item.attributes.selling_price,
             product_tags_en: item.attributes.product_tags_en,

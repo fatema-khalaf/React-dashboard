@@ -46,8 +46,8 @@ export default function CreateProduct() {
     special_offer: '',
     featured: '',
     hot_deals: '',
-    tags_english: '',
-    tags_arabic: '',
+    product_tags_en: '',
+    product_tags_ar: '',
     images: '',
     selling_price: '',
     discount: '',
@@ -72,10 +72,10 @@ export default function CreateProduct() {
 
   // These fields 👇 do Not have controller, only get the values by prop functions and set values useing setvalue
   function handleTagsEnglish(items) {
-    setValue('tags_english', items);
+    setValue('product_tags_en', items);
   }
   function handleTagsArabic(items) {
-    setValue('tags_arabic', items);
+    setValue('product_tags_ar', items);
   }
   function handleSelecetedFiles(items) {
     const files = items.map((item) => item.file);
@@ -120,7 +120,6 @@ export default function CreateProduct() {
   // on submit
   const onSubmit = async (data) => {
     const formData = new FormData();
-    console.log(data);
     if (data.images.length === 0) {
       setRequired('This field is required, add at least one image');
     }
@@ -138,8 +137,8 @@ export default function CreateProduct() {
     formData.append('special_offer', data.special_offer === true ? 1 : 0);
     formData.append('featured', data.featured === true ? 1 : 0);
     formData.append('hot_deals', data.hot_deals === true ? 1 : 0);
-    formData.append('tags_english', data.product_tags_en);
-    formData.append('tags_arabic', data.product_tags_ar);
+    formData.append('product_tags_en', data.product_tags_en);
+    formData.append('product_tags_ar', data.product_tags_ar);
     formData.append('product_color_en', data.product_color_en);
     formData.append('product_color_ar', data.product_color_ar);
     formData.append('product_size_ar', data.product_size_ar);
@@ -254,7 +253,7 @@ export default function CreateProduct() {
                     fullWidth
                     variant="outlined"
                     id="tags"
-                    name="tags_english"
+                    name="product_tags_en"
                     placeholder="add Tags"
                     label="tags english"
                   />
@@ -265,7 +264,7 @@ export default function CreateProduct() {
                     fullWidth
                     variant="outlined"
                     id="tags"
-                    name="tags_arabic"
+                    name="product_tags_ar"
                     placeholder="add Tags"
                     label="tags arabic"
                   />

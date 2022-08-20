@@ -11,7 +11,9 @@ class AppUrl {
 
   static Products = '/products';
 
-  static Admin = '/admin';
+  static Admin = '/admin'; // get current logged in admin
+
+  static Admins = '/admins'; // all admins's routes
 }
 
 export default AppUrl;

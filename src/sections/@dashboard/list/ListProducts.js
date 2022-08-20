@@ -198,7 +198,7 @@ export default function ListProducts({
                   const { id, ...tableCells } = row; // destructuer row object
                   const isItemSelected = selected.indexOf(id) !== -1;
                   return (
-                    <>
+                    <Fragment key={id}>
                       <TableRow
                         hover
                         key={id}
@@ -274,8 +274,8 @@ export default function ListProducts({
                                   >
                                     <TableRow>
                                       {COLLAPS_HEAD.map((element) => {
-                                        // console.log(element.label);
-                                        return <TableCell>{element.label}</TableCell>;
+                                        // console.log(element);
+                                        return <TableCell key={element.id}>{element.label}</TableCell>;
                                       })}
                                     </TableRow>
                                   </TableHead>
@@ -284,7 +284,7 @@ export default function ListProducts({
                                       {Object.keys(tableCells).map(function (key, index) {
                                         if (index > 6 && index < 15) {
                                           return (
-                                            <TableCell component="th" scope="row">
+                                            <TableCell component="th" scope="row" key={index}>
                                               {tableCells[key]}
                                             </TableCell>
                                           );
@@ -298,7 +298,7 @@ export default function ListProducts({
                               <Box sx={{ marginLeft: 3 }}>
                                 {DESC_HEAD.map((el) => {
                                   return (
-                                    <>
+                                    <div key={el.id}>
                                       <Typography variant="subtitle2" gutterBottom component="div" mt={1}>
                                         {el.label}
                                       </Typography>
@@ -308,7 +308,7 @@ export default function ListProducts({
                                             {Object.keys(tableCells).map(function (key, index) {
                                               if (index > 14 && key === el.id) {
                                                 return (
-                                                  <TableCell component="th" scope="row">
+                                                  <TableCell component="th" scope="row" key={index}>
                                                     {parse(tableCells[key])}
                                                   </TableCell>
                                                 );
@@ -317,7 +317,7 @@ export default function ListProducts({
                                           </TableRow>
                                         </TableBody>
                                       </Table>
-                                    </>
+                                    </div>
                                   );
                                 })}
                               </Box>
@@ -325,7 +325,7 @@ export default function ListProducts({
                           </TableCell>
                         </TableRow>
                       )}
-                    </>
+                    </Fragment>
                   );
                 })}
                 {emptyRows > 0 && (

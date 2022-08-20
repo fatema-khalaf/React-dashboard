@@ -28,7 +28,7 @@ export default function ListSkeleton({ TABLE_HEAD, avatar }) {
     <TableBody>
       {rows.map((item) => {
         return (
-          <TableRow hover key={item.id} tabIndex={-1} role="checkbox" selected={false} aria-checked={false}>
+          <TableRow hover key={item} tabIndex={-1} role="checkbox" selected={false} aria-checked={false}>
             <TableCell padding="checkbox">
               <Checkbox checked={false} />
             </TableCell>

@@ -46,6 +46,9 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
+    // TODO: implement serch by creating search endpoint in the api and use it here
+    // console.log(query);
+    // console.log(array);
     return filter(array, (_user) => _user.name.indexOf(query) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);

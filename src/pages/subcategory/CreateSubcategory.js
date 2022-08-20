@@ -13,7 +13,6 @@ import { AlertContext } from '../../context/alertContext/alert-constext';
 import Page from '../../components/Page';
 import CusBreadcrumbs from '../../components/CusBreadcrumbs';
 // API
-import privateAxios from '../../RestAPI/axios';
 import RestClient from '../../RestAPI/RestClient';
 import AppUrl from '../../RestAPI/AppUrl';
 
@@ -63,34 +62,17 @@ export default function CreateSubcategory() {
     formData.append('category_id', data.category_id);
     formData.append('subcategory_name_en', data.subcategory_name_en);
     formData.append('subcategory_name_ar', data.subcategory_name_ar);
-    privateAxios
-      .post(AppUrl.Subcategories, formData)
-      .then((response) => {
-        setValue('subcategory_name_en', '');
-        setValue('subcategory_name_ar', '');
-        setValue('category_id', '');
-        dispatch(AlertAction.showSuccessAlert('Add success!'));
-        navigate('/dashboard/subcategory/list');
-        return response;
+    // Custom function to implement Create request to the API with error handling
+    RestClient.CreateRequest(AppUrl.Subcategories, formData, setError)
+      .then((res) => {
+        if (res) {
+          dispatch(AlertAction.showSuccessAlert('Add success!'));
+          navigate('/dashboard/subcategory/list');
+        }
       })
       .catch((error) => {
-        if (!error.response.data) {
-          return dispatch(AlertAction.showErrorAlert('Server Not availabe, Please try again later!'));
-        }
-        if (error.response.data) {
-          // Request made and server responded
-          if (error.response.status === 404) {
-            dispatch(AlertAction.showErrorAlert('Something went wrong, Please try again later!'));
-          } else {
-            const keys = Object.keys(error.response.data.errors);
-            keys.forEach((key, index) => {
-              setError(key, { type: 'type', message: error.response.data.errors[key] });
-            });
-          }
-        } else {
-          // Something happened in setting up the request that triggered an
-          return dispatch(AlertAction.showErrorAlert('Internal Error, Please try again later!'));
-        }
+        dispatch(AlertAction.showErrorAlert(error));
+        console.log(error);
       });
   };
 

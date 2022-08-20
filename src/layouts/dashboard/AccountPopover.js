@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link as RouterLink, Navigate, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
@@ -9,26 +9,20 @@ import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@
 // components
 import MenuPopover from '../../components/MenuPopover';
 // mocks_
-import account from '../../_mock/account';
 import AppUrl from '../../RestAPI/AppUrl';
-
+import privateAxios from '../../RestAPI/axios';
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
   {
-    label: 'Home',
-    icon: 'eva:home-fill',
-    linkTo: '/',
-  },
-  {
     label: 'Profile',
     icon: 'eva:person-fill',
-    linkTo: '#',
+    linkTo: '/admin/profile',
   },
   {
     label: 'Settings',
     icon: 'eva:settings-2-fill',
-    linkTo: '#',
+    linkTo: '/admin/Settings',
   },
 ];
 
@@ -42,6 +36,22 @@ export default function AccountPopover() {
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
+
+  // Get logged in admin data
+  const [admin, setAdmin] = useState([]);
+  useEffect(() => {
+    privateAxios
+      .get(AppUrl.Admin)
+      .then((res) => {
+        console.log(res.data);
+        setAdmin(res.data);
+      })
+      .catch((err) => {
+        // TODO: handel error
+        console.log(err);
+      });
+  }, []);
+  // Logout user then redirect to login page
   const cookies = new Cookies(); // create cookies object
   const navigate = useNavigate();
   const handleClose = () => {
@@ -75,7 +85,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={`${AppUrl.BaseURL}${admin.photo}`} alt="photoURL" />
       </IconButton>
 
       <MenuPopover
@@ -94,10 +104,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {admin.name}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {admin.email}
           </Typography>
         </Box>
 

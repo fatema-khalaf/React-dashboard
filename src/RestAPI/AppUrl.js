@@ -10,6 +10,8 @@ class AppUrl {
   static Subsubcategories = '/subsubcategories';
 
   static Products = '/products';
+
+  static Admin = '/admin';
 }
 
 export default AppUrl;

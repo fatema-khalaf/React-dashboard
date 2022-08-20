@@ -18,7 +18,7 @@ import CreateCategory from './pages/category/CreateCategory';
 import { SubcategoryList, EditSubcategory, CreateSubcategory } from './pages/subcategory';
 import { SubsubcategoryList, EditSubsubcategory, CreateSubsubcategory } from './pages/subsubcategory';
 import { CreateProduct, EditProduct, ProductList } from './pages/product';
-
+import { AdminProfile, AdminSettings } from './pages/admin';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -78,6 +78,14 @@ export default function Router() {
             children: [
               { path: 'app', element: <DashboardApp /> },
               { path: 'user', element: <User /> },
+            ],
+          },
+          {
+            path: '/admin',
+            element: <DashboardLayout />,
+            children: [
+              { path: 'profile', element: <AdminProfile /> },
+              { path: 'settings', element: <AdminSettings /> },
             ],
           },
           {

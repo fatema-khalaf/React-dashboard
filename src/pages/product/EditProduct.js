@@ -28,16 +28,23 @@ import AppUrl from '../../RestAPI/AppUrl';
 import privateAxios from '../../RestAPI/axios';
 import RestClient from '../../RestAPI/RestClient';
 import draftToHtml from 'draftjs-to-html';
+import { useApiCall } from '../../components/requests/Query';
+import useGetBrands from 'src/context/request/BrandsRequest';
+import useGetSubsubcategories from 'src/context/request/SubsubcategoriesRequest';
 
 export default function EditProduct() {
   const reviewRef = useRef();
   const [imageUrl, setImageUrl] = useState(null);
   const navigate = useNavigate(); // to redirect user to any page
   const [state, dispatch] = useContext(AlertContext);
-  const [subsubcategories, setSubsubcategories] = useState([]);
-  const [brands, setBrands] = useState([]);
   const [images, setImages] = useState([]);
   const params = useParams();
+
+  // add brands and subsubcategories to select inputs
+  const isComponentMounted = useRef(true); // to improve performance by prevention useGetSubsubcategories hook from implementing befor this component being mounted
+  const isComponentMountedBrand = useRef(true); // to improve performance by prevention useGetbrands hook from implementing befor this component being mounted
+  const { data: brands, error: brandsError } = useGetBrands(isComponentMountedBrand, []);
+  const { data: subsubcategories, error: subsubcategoriesError } = useGetSubsubcategories(isComponentMounted, []);
 
   const defaultValues = {
     product_name_en: '',
@@ -50,13 +57,13 @@ export default function EditProduct() {
     product_qty: '',
     subsubcategory_id: '',
     brand_id: '',
-    status: '',
-    special_deals: '',
-    special_offer: '',
-    featured: '',
-    hot_deals: '',
-    product_tags_en: '',
-    product_tags_ar: '',
+    status: false,
+    special_deals: false,
+    special_offer: false,
+    featured: false,
+    hot_deals: false,
+    product_tags_en: [],
+    product_tags_ar: [],
     images: '',
     selling_price: '',
     discount: '',
@@ -106,10 +113,10 @@ export default function EditProduct() {
         setValue('discount', data.attributes.discount);
         setValue('product_code', data.attributes.product_code);
         setValue('product_tags_ar', data.attributes.product_tags_ar);
-        setValue('product_size_en', data.attributes.product_size_en);
-        setValue('product_size_ar', data.attributes.product_size_ar);
-        setValue('product_color_en', data.attributes.product_color_en);
-        setValue('product_color_ar', data.attributes.product_color_ar);
+        data.attributes.product_size_en && setValue('product_size_en', data.attributes.product_size_en); // if the value null do not set it as input value
+        data.attributes.product_size_en && setValue('product_size_ar', data.attributes.product_size_ar);
+        data.attributes.product_color_en && setValue('product_color_en', data.attributes.product_color_en);
+        data.attributes.product_color_ar && setValue('product_color_ar', data.attributes.product_color_ar);
         setValue('product_thambnail', data.attributes.product_thambnail);
         setValue('special_deals', data.attributes.special_deals == 1 ? true : false);
         setValue('special_offer', data.attributes.special_offer == 1 ? true : false);
@@ -141,41 +148,6 @@ export default function EditProduct() {
     getData();
   }, [imageUrl]);
 
-  // add brands and subsubcategories to select inputs
-  useEffect(() => {
-    // TODO: create custom hook to do these request
-    RestClient.GetRequest(AppUrl.Subsubcategories).then((res) => {
-      if (!res) {
-        dispatch(AlertAction.showErrorAlert('Internal Error, Please try again later!'));
-        setError('subsubcategory_id', { type: 'No reponse', message: 'Can not load data, Please try again later!' });
-      } else {
-        return setSubsubcategories(
-          res.data.map((item) => {
-            return {
-              label: item.attributes.subsubcategory_name_en,
-              value: item.id,
-            };
-          })
-        );
-      }
-    });
-
-    RestClient.GetRequest(AppUrl.Brands).then((res) => {
-      if (!res) {
-        dispatch(AlertAction.showErrorAlert('Internal Error, Please try again later!'));
-        setError('brand_id', { type: 'No reponse', message: 'Can not load data, Please try again later!' });
-      } else {
-        return setBrands(
-          res.data.map((item) => {
-            return {
-              label: item.attributes.brand_name_en,
-              value: item.id,
-            };
-          })
-        );
-      }
-    });
-  }, []);
   // on submit
   const onSubmit = async (data) => {
     const formData = new FormData();

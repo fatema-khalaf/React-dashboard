@@ -105,8 +105,9 @@ export default function EditBrand() {
               <Card sx={{ p: 2 }}>
                 <FormControl sx={{ width: '100%', p: 3 }}>
                   <ImageInput
+                    name="brand_image"
                     ref={reviewRef}
-                    useFormRegister={register('brand_image')} // conect the input inside ImageInput with useForm
+                    useFormRegister={register} // conect the input inside ImageInput with useForm
                     error={errors.brand_image && errors.brand_image.message}
                   />
                 </FormControl>

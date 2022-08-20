@@ -5,7 +5,7 @@ import Cookies from 'universal-cookie';
 
 // @mui
 import { alpha } from '@mui/material/styles';
-import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@mui/material';
+import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Skeleton } from '@mui/material';
 // components
 import MenuPopover from '../../components/MenuPopover';
 // mocks_
@@ -85,7 +85,11 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src={`${AppUrl.BaseURL}${admin.photo}`} alt="photoURL" />
+        {admin.photo ? (
+          <Avatar src={`${AppUrl.BaseURL}${admin.photo}`} alt="photoURL" />
+        ) : (
+          <Skeleton variant="circular" width={40} height={40} />
+        )}
       </IconButton>
 
       <MenuPopover

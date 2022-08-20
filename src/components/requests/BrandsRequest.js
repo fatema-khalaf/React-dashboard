@@ -1,10 +1,12 @@
+// THIS FILE NOT IN USE
+
 import { useApiCall } from './Query';
 
 function Request() {
   const { data, isLoading, error, refetch } = useApiCall();
 
   if (error) {
-    return <h1>error</h1>;
+    return <h1>{error.response}</h1>;
   }
   if (isLoading) {
     return <h1> Loading....</h1>;

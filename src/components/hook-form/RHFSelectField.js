@@ -15,7 +15,6 @@ RHFSelectField.propTypes = {
 export default function RHFSelectField({ name, options, ...other }) {
   const { control } = useFormContext();
   const [option, setOption] = useState('');
-
   return (
     <Controller
       name={name}
@@ -30,7 +29,7 @@ export default function RHFSelectField({ name, options, ...other }) {
           helperText={error?.message}
           {...other}
         >
-          {options.map((option) => (
+          {options?.map((option) => (
             <MenuItem key={option.value} value={option.value}>
               {option.label}
             </MenuItem>

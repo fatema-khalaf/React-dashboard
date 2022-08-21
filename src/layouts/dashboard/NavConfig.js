@@ -102,21 +102,21 @@ const navConfig = [
     ],
   },
 
-  {
-    title: 'user',
-    path: '/dashboard/user',
-    icon: getIcon('eva:people-fill'),
-  },
+  // {
+  //   title: 'user',
+  //   path: '/dashboard/user',
+  //   icon: getIcon('eva:people-fill'),
+  // },
   // {
   //   title: 'login',
   //   path: '/login',
   //   icon: getIcon('eva:lock-fill'),
   // },
-  {
-    title: 'register',
-    path: '/register',
-    icon: getIcon('eva:person-add-fill'),
-  },
+  // {
+  //   title: 'register',
+  //   path: '/register',
+  //   icon: getIcon('eva:person-add-fill'),
+  // },
   // {
   //   title: 'Not found',
   //   path: '/404',

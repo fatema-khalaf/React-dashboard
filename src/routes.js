@@ -78,7 +78,7 @@ export default function Router() {
             element: <DashboardLayout />,
             children: [
               { path: 'app', element: <DashboardApp /> },
-              { path: 'user', element: <User /> },
+              // { path: 'user', element: <User /> },
             ],
           },
           {
@@ -104,7 +104,7 @@ export default function Router() {
             children: [
               { path: '/', element: <Navigate to={'/dashboard/app'} /> },
               { path: 'login', element: <Login /> },
-              { path: 'register', element: <Register /> },
+              // { path: 'register', element: <Register /> },
               { path: '404', element: <NotFound /> },
               { path: '*', element: <Navigate to="/404" /> },
             ],

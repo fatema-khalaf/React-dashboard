@@ -14,7 +14,7 @@ const navConfig = [
   {
     title: 'Brand',
     path: '/dashboard/brand/',
-    icon: getIcon('eva:pie-chart-2-fill'),
+    icon: getIcon('icon-park-solid:engineering-brand'),
     children: [
       {
         title: 'Create',
@@ -29,7 +29,7 @@ const navConfig = [
   {
     title: 'Category',
     path: '/dashboard/category/',
-    icon: getIcon('eva:pie-chart-2-fill'),
+    icon: getIcon('mdi:shape'),
     children: [
       {
         title: 'Create',
@@ -44,7 +44,7 @@ const navConfig = [
   {
     title: 'Subcategory',
     path: '/dashboard/subcategory/',
-    icon: getIcon('eva:pie-chart-2-fill'),
+    icon: getIcon('carbon:collapse-categories'),
     children: [
       {
         title: 'Create',
@@ -59,7 +59,7 @@ const navConfig = [
   {
     title: 'Subsubcategory',
     path: '/dashboard/subsubcategory/',
-    icon: getIcon('eva:pie-chart-2-fill'),
+    icon: getIcon('carbon:expand-categories'),
     children: [
       {
         title: 'Create',
@@ -74,7 +74,7 @@ const navConfig = [
   {
     title: 'product',
     path: '/dashboard/product/',
-    icon: getIcon('eva:pie-chart-2-fill'),
+    icon: getIcon('mdi:tshirt-crew'),
     children: [
       {
         title: 'Create',
@@ -83,6 +83,36 @@ const navConfig = [
       {
         title: 'List',
         path: '/dashboard/product/list',
+      },
+    ],
+  },
+  {
+    title: 'orders',
+    path: '/dashboard/order/',
+    icon: getIcon('icon-park-solid:transaction-order'),
+    children: [
+      {
+        title: 'Create',
+        path: '/dashboard/order/create',
+      },
+      {
+        title: 'List',
+        path: '/dashboard/order/list',
+      },
+    ],
+  },
+  {
+    title: 'newsletter',
+    path: '/dashboard/newsletter/',
+    icon: getIcon('mdi:email-newsletter'),
+    children: [
+      {
+        title: 'Create',
+        path: '/dashboard/newsletter/create',
+      },
+      {
+        title: 'List',
+        path: '/dashboard/newsletter/list',
       },
     ],
   },
@@ -98,6 +128,21 @@ const navConfig = [
       {
         title: 'List',
         path: '/dashboard/admin/list',
+      },
+    ],
+  },
+  {
+    title: 'settings',
+    path: '/dashboard/setting/',
+    icon: getIcon('icon-park-twotone:setting-two'),
+    children: [
+      {
+        title: 'Create',
+        path: '/dashboard/setting/create',
+      },
+      {
+        title: 'List',
+        path: '/dashboard/setting/list',
       },
     ],
   },

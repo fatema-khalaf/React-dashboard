@@ -19,6 +19,7 @@ import { SubcategoryList, EditSubcategory, CreateSubcategory } from './pages/sub
 import { SubsubcategoryList, EditSubsubcategory, CreateSubsubcategory } from './pages/subsubcategory';
 import { CreateProduct, EditProduct, ProductList } from './pages/product';
 import { AdminProfile, AdminSettings } from './pages/admin';
+import { AdminList, CreateAdmin, EditAdmin } from './pages/admins';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -86,6 +87,15 @@ export default function Router() {
             children: [
               { path: 'profile', element: <AdminProfile /> },
               { path: 'settings', element: <AdminSettings /> },
+            ],
+          },
+          {
+            path: '/dashboard/admin',
+            element: <DashboardLayout />,
+            children: [
+              { path: 'create', element: <CreateAdmin /> },
+              { path: 'list', element: <AdminList /> },
+              { path: 'edit/:id', element: <EditAdmin /> },
             ],
           },
           {

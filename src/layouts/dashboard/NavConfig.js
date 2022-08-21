@@ -86,6 +86,21 @@ const navConfig = [
       },
     ],
   },
+  {
+    title: 'admins',
+    path: '/dashboard/admin/',
+    icon: getIcon('eva:people-fill'),
+    children: [
+      {
+        title: 'Create',
+        path: '/dashboard/admin/create',
+      },
+      {
+        title: 'List',
+        path: '/dashboard/admin/list',
+      },
+    ],
+  },
 
   {
     title: 'user',

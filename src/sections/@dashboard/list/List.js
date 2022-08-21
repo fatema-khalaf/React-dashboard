@@ -148,10 +148,11 @@ export default function List({ nowrap, TABLE_HEAD, data, setIsDeleted, editURL, 
                         <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, id)} />
                       </TableCell>
                       {Object.keys(tableCells).map(function (key, index) {
+                        console.log(tableCells[key]);
                         if (tableCells[key]?.toString().includes(AppUrl.BaseURL)) {
                           return (
                             <TableCell align="left" key={index}>
-                              <Avatar alt={tableCells.avatarUrl} src={tableCells.avatarUrl} />
+                              <Avatar alt={tableCells[key]} src={tableCells[key]} />
                             </TableCell>
                           );
                         } else {

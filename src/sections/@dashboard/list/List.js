@@ -54,7 +54,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function List({ TABLE_HEAD, data, setIsDeleted, editURL, deleteURL, isLoading, error, avatar }) {
+export default function List({ nowrap, TABLE_HEAD, data, setIsDeleted, editURL, deleteURL, isLoading, error, avatar }) {
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -156,7 +156,7 @@ export default function List({ TABLE_HEAD, data, setIsDeleted, editURL, deleteUR
                           );
                         } else {
                           return (
-                            <TableCell align="left" key={index}>
+                            <TableCell align="left" key={index} sx={{ whiteSpace: nowrap && 'nowrap' }}>
                               {tableCells[key]}
                             </TableCell>
                           );
